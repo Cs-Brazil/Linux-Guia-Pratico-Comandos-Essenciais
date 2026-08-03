@@ -36,7 +36,8 @@ Ou seja, *documentos.txt* é o alvo do comando
 ls -a
 ```
 
-> [!TIP] -a é uma opção para listar os diretório ocultos
+> [!TIP]
+>  -a é uma opção para listar os diretório ocultos
 >
 > Ou seja, 'ls -a' signfica: ***liste os diretórios e os ocultos***
 
