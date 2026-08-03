@@ -12,7 +12,8 @@ Exemplo:
 ls
 ```
 
-> [!TIP] 'ls' é um comando para listar conteúdos do diretório, mostrando arquivos e pastas.
+> [!TIP] 
+> 'ls' é um comando para listar conteúdos do diretório, mostrando arquivos e pastas.
 
 ## Argumento
 
@@ -22,7 +23,8 @@ ls
 wc documentos.txt
 ```
 
-> [!TIP] 'wc' é um comando para contar linhas, palavras e bytes, caracteres
+> [!TIP] 
+> 'wc' é um comando para contar linhas, palavras e bytes, caracteres
 
 Ou seja, *documentos.txt* é o alvo do comando
 
@@ -56,11 +58,13 @@ Exemplo
 cat -
 ```
 
-> [!TIP] 'cat' serve para concatenar, ler/exibir arquivos de texto.
+> [!TIP] 
+> 'cat' serve para concatenar, ler/exibir arquivos de texto.
 
 Quando cat é usado com hífen (-), ele espera que você digite um texto
 
-> [!IMPORTANT] Quando um arquivo tem começa com "-" o comando pode entender que ele é uma opção, ou seja, uma variável de ambiente. Para usar o comando use:
+> [!IMPORTANT] 
+> Quando um arquivo tem começa com "-" o comando pode entender que ele é uma opção, ou seja, uma variável de ambiente. Para usar o comando use:
 > ```sh
 > wc -- -text.txt ou wc ./ -text.txt
 >```
