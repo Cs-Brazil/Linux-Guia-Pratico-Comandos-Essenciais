@@ -10,7 +10,7 @@ Este repositório não substitui o livro nem reproduz seu conteúdo integral.
 
 > [!WARNING]
 > A imagem da capa é utilizada apenas para identificação da obra estudada. Todos os direitos da capa e do livro pertencem aos respectivos autores e à editora.
->
+
 > [!IMPORTANT]
 > A edição usada é a 4° edição, como referência. A depender da edição anterior , o conteúdo pode mudar.
 
