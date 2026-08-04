@@ -78,3 +78,35 @@ Isso indica, no livro se um suporta uma das características, como stdin, stdou,
 ✅ Suportado = o comando sabe fazer isso
 
 ❌ Não suportado = o comando não possui essa funcionalidade
+
+## Coisas que aprendi além do livro nesse tópico
+
+### sudo
+
+O 'sudo' tem três características, e é usado para ter acesso ao modo root de maneira segura.
+
+1° - Ele tem um 'root mode' por demanda. Ou seja, quando é acessado funções específicas, (como instalar um programa), é preciso permissões de administrador, o que exige uma senha, aumentando a segurança.
+
+Com o Sudo, qualquer coisa que é acessado, pede uma senha. Essa senha, é uma forma de segurança para ter certeza que uma ação X é realmente aquilo que deseja.
+
+Para acessar o modo administrador, como curiosidade, use o comando:
+
+```sh
+su -
+```
+
+> [!TIP] 'su' significa super user, ou seja, é comando para ter acesso ao modo administrador.
+
+Um exemplo para acessar o sudo.
+
+```sh
+sudo apt curl
+```
+
+Nesse caso está usando o modo administrador para instalar o pacote curl.
+
+Com isso é possível ter acesso de maneira integral, porém se fazer algum comando errado pode acabar quebrando o OS.
+
+2° - O Sudo, não pede senha do root, e sim do usuário ao ser usado.
+
+3° - O Sudo é configuravel, ou seja, é possível configurar para que comandos específicos não peçam senha.
