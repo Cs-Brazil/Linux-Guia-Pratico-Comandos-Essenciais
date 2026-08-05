@@ -13,7 +13,9 @@ ls
 ```
 
 > [!TIP] 
-> 'ls' é um comando para listar conteúdos do diretório, mostrando arquivos e pastas.
+> 'ls' significa **list** e é usado para listar conteúdos do diretório, mostrando arquivos e pastas. 
+>
+>Muito usado para saber o que há dentro de um determinado diretório.
 
 ## Argumento
 
@@ -24,7 +26,7 @@ wc documentos.txt
 ```
 
 > [!TIP] 
-> 'wc' é um comando para contar linhas, palavras e bytes, caracteres
+> 'wc' significa **word count** é um comando para contar linhas, palavras e bytes, caracteres
 
 Ou seja, *documentos.txt* é o alvo do comando
 
@@ -37,7 +39,7 @@ ls -a
 ```
 
 > [!TIP]
->  -a é uma opção para listar os diretório ocultos
+>  -a significa **all** e é uma opção para listar os diretório ocultos
 >
 > Ou seja, 'ls -a' signfica: ***liste os diretórios e os ocultos***
 
