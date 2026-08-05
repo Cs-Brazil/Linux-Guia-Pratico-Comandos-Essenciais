@@ -65,7 +65,7 @@ cat -
 Quando cat é usado com hífen (-), ele espera que você digite um texto
 
 > [!IMPORTANT] 
-> Quando um arquivo tem começa com "-" o comando pode entender que ele é uma opção. Para usar o comando use:
+> Quando um arquivo começa com "-" o comando pode entender que ele é uma opção. Para usar o comando use:
 > ```sh
 > wc -- -text.txt ou wc ./ -text.txt
 >```
