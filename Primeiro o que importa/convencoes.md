@@ -65,7 +65,7 @@ cat -
 Quando cat é usado com hífen (-), ele espera que você digite um texto
 
 > [!IMPORTANT] 
-> Quando um arquivo tem começa com "-" o comando pode entender que ele é uma opção, ou seja, uma variável de ambiente. Para usar o comando use:
+> Quando um arquivo tem começa com "-" o comando pode entender que ele é uma opção. Para usar o comando use:
 > ```sh
 > wc -- -text.txt ou wc ./ -text.txt
 >```
@@ -95,7 +95,8 @@ Para acessar o modo administrador, como curiosidade, use o comando:
 su -
 ```
 
-> [!TIP] 'su' significa super user, ou seja, é comando para ter acesso ao modo administrador.
+> [!TIP] 
+> 'su' significa super user, ou seja, é comando para ter acesso ao modo administrador.
 
 Um exemplo para acessar o sudo.
 
@@ -105,7 +106,11 @@ sudo apt curl
 
 Nesse caso está usando o modo administrador para instalar o pacote curl.
 
-Com isso é possível ter acesso de maneira integral, porém se fazer algum comando errado pode acabar quebrando o OS.
+Resumindo: 
+
+Com o modo root é possível ter acesso de maneira integral as funções de administrador, porém se fazer algum comando errado pode acabar quebrando o OS.
+
+Já o Sudo é um modo root sobre demanda, onde é acessado apenas para aquela tarefa específica aumentando a segurança contra erros críticos, por exemplo, apagar o própio OS.
 
 2° - O Sudo, não pede senha do root, e sim do usuário ao ser usado.
 
