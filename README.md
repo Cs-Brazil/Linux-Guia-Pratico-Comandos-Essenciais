@@ -20,7 +20,7 @@ Esse estudo é voltado para aprender a usar Linux no dia a dia, com foco especí
 
 ### Primeiro o que importa
 
-- [ ] Explicar as convenções usadas no Livro
+- [x] Explicar as convenções usadas no Livro
 
 ### Capítulo 1 — Conceitos essenciais
 
