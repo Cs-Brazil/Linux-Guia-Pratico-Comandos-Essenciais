@@ -45,7 +45,7 @@ Essa é a grande vantagem dos pipes: eles permitem conectar a saída de um coman
 
 stdout -> pipes -> stdin
 
-## Argumentos vs stdin
+## Argumentos vs Stdin
 
 Os programas podem receber informações de duas formas principais: por **argumentos** ou pela **entrada padrão (stdin)**.
 
@@ -69,25 +69,35 @@ wc -w < arquivo.txt    # recebe os dados do arquivo pela stdin
 
 ## Diretorio do Linux
 
-* **/boot** é um diretório onde fica o kernal do Linux, é onde fica o nucleo do sistema.
+* **/boot** é o diretório onde mostra todos os arquivos do boot do kernal do Linux.
 
 * **usr/bin** é o diretório onde se guarda os arquivos binários dos comandos do Linux. Por exmplos os comandos, echo, wc são arquivos C compilados para binários.
 
-* **usr/lib** guarda os diretório as bibliotecas do C, ou seja, são arquivos própios do C ou de terceiros (usados pelo própio sistema) para que o código funcione.
+* **usr/lib** é o diretório guarda  as bibliotecas do C, ou seja, são arquivos própios do C ou de terceiros (usados pelo própio sistema) para que o código funcione.
 
-* **usr/local/bin** é o diretório onde é possível o usuário criar seus própios comandos, basta compilar um arquivo binário e colocar na pasta. Assim, você terá seus própios comandos exclusivos.
+* **usr/local/bin** é o diretório onde é possível o usuário criar seus própios comandos, basta compilar um arquivo binário e colocar na pasta. Assim, terá seus própios comandos exclusivos.
 
 * **user/sbin** usado para administração do sistema, isso não tem nada haver com o root. São apenas comandos para o sistema Linux. Alguns precisam de root (ou sudo) ou podem ser acessados pelo usuário normal, da mesma forma os comandos encontrados no usr/bin.
 
+* **/proc** é um diretório onde mostra todos os processos que estão rodando no seu OS. Desde de drivers, sofwares de interface, o processos do kernal.
+
+Como curiosidade o comando 'top' lista o diretório proc/ em tempo real, como um  gerenciador de tarefas do windows.
+
+```sh
+top
+```
+
+* **/sys** é um diretório que mostra o própio kernal.
+
 ## Caminho absoluto vs relativo
 
-Os caminhos absolutos, são caminhos que começam da sua pasta raiz, que começa /.
+Os caminhos absolutos, são caminhos que começam da sua pasta raiz e começam /
 
-Agora suponha que está no diretório /home. Para procurar algo dentro do diretório, é preciso tirar a barra inicial (/), o que significa que está a procurar algo no diretório relativo.
+Agora suponha que está no diretório /home. Para procurar algo dentro do diretório, é preciso tirar a barra inicial, o que significa que nesse momento o usuário está no diretório relativo.
 
 Exemplo:
 
-No primeiro exemplos, suponha que dentro do diretório home, exista o diretório arquivo e o sub-diretório word. Ao fazer isso, é possível acessa-los.
+No primeiro exemplo, suponha que dentro do diretório home, exista o diretório 'arquivos' e o subdiretório 'word'. Ao fazer isso, é possível acessa-los.
 
 ```sh
 cd arquivos/word
@@ -99,10 +109,57 @@ Ainda dentro do diretório home:
 cd /arquivos/word
 ```
 
-Nesse caso dará erro, porque vai puxar no diretório raiz e não existe esse tipo de caminho apartir da raiz
+Nesse caso dará erro, porque vai puxar no diretório raiz e não existe esse tipo de caminho apartir do raiz, somente dentro do /home
 
 Por convenção, ./ é o mesmo que sem a barra:
 
 ```sh
-cd ./arquivos/word
+cd ./arquivos/word 
 ```
+
+Existem situações para que que para acessar os certos programas, como todo arquivos executaveis, é obrigatório o uso do ./
+
+### Porque arquivo executável precisa de ./
+
+Como foi citado anteriormente, os comandos do Linux são programas executaveis. Então os seguites motivos são:
+
+1 - Para evitar ambiguidade 
+
+Suponha que dentro do seu diretório '/home/nome-do-usuario' tenha um arquivo binário chamado ls. ls é o  nome do comando padrão do OS, o que significa que ao chamar o comando ls, ele sempre vai dar preferência ao comando global. Para executar o comando ls seu, é necessário usar o ./ls.
+
+Porque existe um variável de ambiente chamado $PATH que mostra qual o caminho e prioridade o comando deve seguir. Para vizualizar:
+
+```sh
+echo $PATH
+```
+
+É a localização para buscar onde está o comando.
+
+Então por convenção, sempre os executaveis é pedido ./, porque pode acontecer de algum dia o usuário criar um arquivo que tenha o nome igual dos comandos do Linux. 
+
+2 - Segurança
+
+Imagina que você sem querer baixa um arquivo malicioso na suas pastas de fotos. As suas fotos estão no '/home/seu-usuario/fotos', e existe um arquivo malicioso chamado ls lá.
+
+Quando executa o comando ls, ele não vai executar o ls dentro da sua pasta e sim o ls global (que está em $PATH, dito anteriormente) evitando erros de segurança acidentais.
+
+Para executar o código interno, é preciso usar ./ que diz ao "***Ei Linux, eu quero executar não o ls padrão do sistema, e sim o ls que eu criei, que está dentro da pasta onde eu estou localizado***"
+
+>[!TIP]
+> Para ver qual repositório está localizado no momento, use o comando pwd que significa 'print working directory'.
+> ```sh
+> pwd
+> ```
+
+## Comando ~/
+
+O Comando serve para se redirecionar para o para o /home. Se no seu linux tem apenas um único usuário, então vai ir para o único usuário padrão.
+
+```sh
+cd ~/
+```
+
+Irá para sua pasta '/home/seu-usuário'.
+
+É útil também para quando está em outras pastas fora de home, e der um cd '~/pagina/html'. Ou seja, vai direto para diretório home procurar a data desejada
+
