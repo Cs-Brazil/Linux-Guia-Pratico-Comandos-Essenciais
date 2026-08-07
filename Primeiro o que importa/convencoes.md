@@ -41,7 +41,7 @@ ls -a
 > [!TIP]
 >  -a significa **all** e é uma opção para listar os diretório ocultos
 >
-> Ou seja, 'ls -a' signfica: ***liste os diretórios e os ocultos do própio sistema***
+> Ou seja, 'ls -a' signfica: ***liste os diretórios e os ocultos do sistema***
 
 ## Stdin (Entrada Padrão)
 
@@ -117,4 +117,3 @@ Já o Sudo é um modo root sobre demanda, onde é acessado apenas para aquela ta
 2° - O Sudo, não pede senha do root, e sim do usuário ao ser usado.
 
 3° - O Sudo é configuravel, ou seja, é possível configurar para que comandos específicos não peçam senha.
-
