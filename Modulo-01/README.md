@@ -83,11 +83,11 @@ wc -w < arquivo.txt    # recebe os dados do arquivo pela stdin
 
 Os caminhos absolutos, são caminhos que começam da sua pasta raiz, que começa /.
 
-Agora suponha que está no diretório /home. Para procurar algo dentro do diretório, é preciso tirar a barra inicial, o que significa que está procurando no diretório relativo.
+Agora suponha que está no diretório /home. Para procurar algo dentro do diretório, é preciso tirar a barra inicial (/), o que significa que está a procurar algo no diretório relativo.
 
 Exemplo:
 
-No primeiro exemplos, suponha que dentro do diretório home, exista os diretório arquivos e word. Ao fazer isso, é possível acessa-los.
+No primeiro exemplos, suponha que dentro do diretório home, exista o diretório arquivo e o sub-diretório word. Ao fazer isso, é possível acessa-los.
 
 ```sh
 cd arquivos/word
@@ -99,7 +99,7 @@ Ainda dentro do diretório home:
 cd /arquivos/word
 ```
 
-Nesse caso dará erro, porque vai puxar no diretório raiz e não existe esse tipo de caminho apartir do raiz
+Nesse caso dará erro, porque vai puxar no diretório raiz e não existe esse tipo de caminho apartir da raiz
 
 Por convenção, ./ é o mesmo que sem a barra:
 
