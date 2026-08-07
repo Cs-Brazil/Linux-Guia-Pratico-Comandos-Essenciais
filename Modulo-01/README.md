@@ -89,6 +89,10 @@ top
 
 * **/sys** é um diretório que mostra o própio kernal.
 
+* **etc** é chamada "et cetera" que vem do latim que singinifica "entre outras coisas". Pensem como o 'etc' do nosso português. É um arquivo de configuração do OS, o que significa que afeta todos os usuários.
+
+* **~/.config** é uma pasta de configuração pessoal do própio  usuário e não afeta de maneira global como o etc.
+
 ## Caminho absoluto vs relativo
 
 Os caminhos absolutos, são caminhos que começam da sua pasta raiz e começam /
