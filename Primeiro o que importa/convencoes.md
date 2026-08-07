@@ -62,7 +62,7 @@ cat -
 ```
 
 > [!TIP] 
-> 'cat' serve para concatenar, ler/exibir arquivos de texto.
+> 'cat' significa **concatenate** serve para concatenar, ler/exibir arquivos de texto.
 
 Quando cat é usado com hífen (-), ele espera que você digite um texto
 
