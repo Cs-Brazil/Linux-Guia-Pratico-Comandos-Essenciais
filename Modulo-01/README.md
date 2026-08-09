@@ -167,3 +167,11 @@ Irá para sua pasta '/home/seu-usuário'.
 
 É útil também para quando está em outras pastas fora de home, e der um cd '~/pagina/html'. Ou seja, vai direto para diretório home procurar a data desejada
 
+## Entendo o comando ls -l
+
+Como sabemos o comando ls ele lista tudo arquilo que está no diretório. Já a opção -l, adiciona mais detalhes sobre esses diretório. E é isso que vamos explorar.
+
+Imagine que você está no diretório 'cd ~/' e que executou o comando um ls -ld no diretório .config. Como no exemplo abaixo:
+
+![img-comando-ls-ld](assets/debia-comando-ls.png)
+
