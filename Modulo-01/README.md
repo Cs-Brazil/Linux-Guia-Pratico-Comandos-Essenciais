@@ -241,7 +241,7 @@ Existem 2 hardliks pois cada arquivo aponta para o mesmo Inode.
 Ou seja, se mudar o arquivo A o B também muda porque ambos estão apontados para o mesmo lugar.
 
 > [!IMPORTANT]
-> Em diretórios, o . e o .. apontam para o Inode. Enquanto o . aponta para o própio diretório, em subdiretório o .. aponta para o pai, o que conta como hardlinks
+> Em diretórios, o . e o .. apontam para o Inode. Enquanto o . aponta para o própio diretório, em subdiretório o .. aponta para o pai, o que conta como hardlinks quando há subdiretórios
 
 ### Dois nomes iguais
 
