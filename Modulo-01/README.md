@@ -175,3 +175,89 @@ Imagine que você está no diretório 'cd ~/' e que executou o comando um ls -ld
 
 ![img-comando-ls-ld](assets/debia-comando-ls.png)
 
+### drwx------
+
+#### Entendendo cada símbolo
+
+d -> A letra inical mostra qual o tipo daquela conteúdo. No caso d é um diretório. Exemplo: Se começar com - é um arquivo comum, se for l é um link simbólico. Ou seja, cada caractere inicial mostra o tipo desse conteúdo.
+
+Após o caractere inicial, cada letra tem um signficado:
+
+r -> red significa ler <br>
+w -> write significa (escrever/modificar) <br>
+x -> execute significa (executar ou "entrar" em caso de diretório)<br>
+'-' -> permissão nula
+
+#### Entendendo as divições
+
+Essa string é dividiva em grupos de três, onde começa com apenas um caractere. Então fica:
+
+```sh
+d rwd --- ---
+```
+
+* d -> é o tipo
+
+* rwx -> representa o conjunto do dono, ou seja, quais as permições o (user), o dono do diretório/arquivo pode ter.
+
+* --- > Esse segundo conjunto representa, os grupos.
+
+    Os grupos são quando há vários usuários e o dono quer dar permições coletivas.
+
+    Imagina em uma empresa, os usuários João e Maria fazem parte do grupo Financeiro. É possível criar grupos e dar permissões para o grupo específico.
+
+* --- > Esse segundo grupo representa outros
+
+    Outros, são demais usuários que não pertecem ao grupo ou não são donos.
+
+    Vamos supor que temos cadastrado no computador o usuário Joaquim. Como Joaquim não é dono e nem faz parte do grupo Financeiro, então para ele, ou seja, o resto do mundo não tera permissão de nada. Nem de r,w e x.
+
+> [!TIP]
+>
+> É possível modificar, como colocar mudar o dono, colocar mais de um grupo, mexer nas mudar as permições de cada grupo, modificar as permições de others
+
+### O número '2'
+
+Esse número representa os hard links. Os hard links é um sistema interno que aponta para o arquivo. Isso significa que o arquivo/diretório não tem o conteúdo, e sim apenas a referência, onde os dois apontam para o disco.
+
+Exemplo: 
+
+```sh
+ln arquivo1.txt > arquivo2.txt
+```
+
+Tanto o arquivo1.txt como o arquivo2.txt estão apontando para o inode.
+
+O Inode é um conjunto de metadados que mostra as informações daquele arquivo/diretório, e de maneira resumida, "tem" o conteúdo do disco daquela informação.
+
+Ou seja, se eu mudar o  arquivo1.txt, o arquivo2.txt também muda pois estão apontando para o mesmo conteúdo. E vice-versa.
+
+Aqui está uma imagem como exemplo:
+
+![Hardlinks](assets/Inode-Arquivos.png)
+
+Existem 2 hardliks pois cada arquivo aponta para o mesmo Inode.
+
+Ou seja, se mudar o arquivo A o B também muda porque ambos estão apontados para o mesmo lugar.
+
+### Dois nomes iguais
+
+O primeiro nome 'ismael' representa quem é o dono daquele tipo de arquivo. Ou seja, é o nome do meu user que foi configurado no momento da instalação do OS.
+
+Como estou na pasta home e no meu usuário, tudo aquilo que eu criar pertece a mim e cada usuário que for criado posteriormente terá seu própio diretório em home.
+
+O segundo nome representa o grupo. Como eu sou o único usuário no meu OS, no momento da instalação é criado um grupo com o meu nome de usuário de maneira padrão, no caso do Debain. Outras distros podem mudar.
+
+Como foi dito em Tip, é possível mudar o nome do group e criar outros.
+
+### bytes
+
+O número 4096 representa o tamanho daquele arquivo/diretório. Sua unidade de medida é em bytes.
+
+### Modificação
+
+'ago 4 : 16:22' é a data e hora da modificação
+
+### .config
+
+É o nome do arquivo/diretório
