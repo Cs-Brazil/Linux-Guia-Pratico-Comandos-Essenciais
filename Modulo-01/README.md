@@ -1,4 +1,4 @@
-# Capitulo 1
+# Capítulo 1
 
 Aqui o autor apresenta os comandos essenciais para começar a usar o Linux.
 
@@ -16,7 +16,7 @@ Alguns comandos aceitam opções combinadas como
 wc -lw myfile1 myfile2
 ```
 
-Nesse caso o wc vai contar as -l conta linhas e o -w as palavras.
+Nesse caso, o wc vai contar: o -l conta linhas e o -w conta palavras.
 
 > [!TIP]
 > Alguns comandos aceitam mais de um argumento, como no caso de wc.
@@ -24,26 +24,25 @@ Nesse caso o wc vai contar as -l conta linhas e o -w as palavras.
 ## Pipe e Pipelines
 
 Pipelines são sequências de comandos conectados por um pipe (|), permitindo que a saída de um comando seja usada como entrada do próximo. Dessa forma, é possível criar fluxos de processamento de dados.
+
 ```sh
 echo "Oi tudo bem?" | wc -w
 ```
 
 Nesse exemplo, o caractere | conecta os comandos echo e wc. O echo envia o texto para sua saída padrão (stdout), e o wc -w recebe esse texto pela entrada padrão (stdin), contando a quantidade de palavras.
 
-### Porque isso acontece?
+### Por que isso acontece?
 
 Porque o 'wc' pode ler dados de duas formas:
 
 * Recebendo um ou mais arquivos como argumento.
-Recebendo dados pela entrada padrão stdin, como acontece em um pipeline.
-
-* Como o echo envia sua saída para o wc através do pipe, o wc consegue processar esse texto mesmo sem um arquivo.
+* Recebendo dados pela entrada padrão stdin, como acontece em um pipeline.
 
 Como o echo envia sua saída para a stdin do wc, este consegue processar o texto sem precisar de um arquivo.
 
 Essa é a grande vantagem dos pipes: eles permitem conectar a saída de um comando à entrada de outro, criando um fluxo contínuo de processamento de dados.
 
-stdout -> pipes -> stdin
+stdout -> pipe -> stdin
 
 ## Argumentos vs Stdin
 
@@ -51,11 +50,10 @@ Os programas podem receber informações de duas formas principais: por **argume
 
 **Argumentos** são valores passados na linha de comando. Em muitos comandos, eles indicam onde os dados estão, ou seja, o caminho.
 
-
 Já a **stdin** fornece os próprios dados ao programa. Esses dados podem vir do teclado, de um pipe (`|`) ou de um redirecionamento (`<`).
 
 > [!IMPORTANT]
-> Existem dois tipos de argumentos as *opções* e o *alvo*. Nesse contexto, trata-se dos argumentos *alvo*.
+> Existem dois tipos de argumentos: as *opções* e o *alvo*. Nesse contexto, trata-se dos argumentos *alvo*.
 
 Exemplo:
 
@@ -67,41 +65,41 @@ echo "Oi tudo bem?" | wc -w   # recebe os dados pela stdin
 wc -w < arquivo.txt    # recebe os dados do arquivo pela stdin
 ```
 
-## Diretorio do Linux
+## Diretórios do Linux
 
-* **/boot** é o diretório onde mostra todos os arquivos do boot do kernal do Linux.
+* **/boot** é o diretório onde ficam todos os arquivos de boot do kernel do Linux.
 
-* **usr/bin** é o diretório onde se guarda os arquivos binários dos comandos do Linux. Por exmplos os comandos, echo, wc são arquivos C compilados para binários.
+* **usr/bin** é o diretório onde se guardam os arquivos binários dos comandos do Linux. Por exemplo, os comandos echo e wc são arquivos C compilados para binários.
 
-* **usr/lib** é o diretório guarda  as bibliotecas do C, ou seja, são arquivos própios do C ou de terceiros (usados pelo própio sistema) para que o código funcione.
+* **usr/lib** é o diretório que guarda as bibliotecas do C, ou seja, são arquivos próprios do C ou de terceiros (usados pelo próprio sistema) para que o código funcione.
 
-* **usr/local/bin** é o diretório onde é possível o usuário criar seus própios comandos, basta compilar um arquivo binário e colocar na pasta. Assim, terá seus própios comandos exclusivos.
+* **usr/local/bin** é o diretório onde é possível o usuário criar seus próprios comandos, basta compilar um arquivo binário e colocar na pasta. Assim, terá seus próprios comandos exclusivos.
 
-* **user/sbin** usado para administração do sistema, isso não tem nada haver com o root. São apenas comandos para o sistema Linux. Alguns precisam de root (ou sudo) ou podem ser acessados pelo usuário normal, da mesma forma os comandos encontrados no usr/bin.
+* **usr/sbin** é usado para administração do sistema — isso não tem nada a ver com o root. São apenas comandos para o sistema Linux. Alguns precisam de root (ou sudo), outros podem ser acessados pelo usuário normal, da mesma forma que os comandos encontrados em usr/bin.
 
-* **/proc** é um diretório onde mostra todos os processos que estão rodando no seu OS. Desde de drivers, sofwares de interface, o processos do kernal.
+* **/proc** é um diretório onde ficam mostrados todos os processos que estão rodando no seu OS. Desde drivers, softwares de interface, até processos do kernel.
 
-Como curiosidade o comando 'top' lista o diretório proc/ em tempo real, como um  gerenciador de tarefas do windows.
+Como curiosidade, o comando 'top' lista o diretório proc/ em tempo real, como um gerenciador de tarefas do Windows.
 
 ```sh
 top
 ```
 
-* **/sys** é um diretório que mostra o própio kernal.
+* **/sys** é um diretório que mostra o próprio kernel.
 
-* **etc** é chamada "et cetera" que vem do latim que singinifica "entre outras coisas". Pensem como o 'etc' do nosso português. É um arquivo de configuração do OS, o que significa que afeta todos os usuários.
+* **etc** é chamado "et cetera", que vem do latim e significa "entre outras coisas". Pense como o 'etc' do nosso português. É um diretório de configuração do OS, o que significa que afeta todos os usuários.
 
-* **~/.config** é uma pasta de configuração pessoal do própio  usuário e não afeta de maneira global como o etc.
+* **~/.config** é uma pasta de configuração pessoal do próprio usuário e não afeta de maneira global como o etc.
 
 ## Caminho absoluto vs relativo
 
-Os caminhos absolutos, são caminhos que começam da sua pasta raiz e começam /
+Os caminhos absolutos são caminhos que começam da sua pasta raiz e começam com /
 
-Agora suponha que está no diretório /home. Para procurar algo dentro do diretório, é preciso tirar a barra inicial, o que significa que nesse momento o usuário está no diretório relativo.
+Agora suponha que você está no diretório /home. Para procurar algo dentro do diretório, é preciso tirar a barra inicial, o que significa que nesse momento o usuário está usando um caminho relativo.
 
 Exemplo:
 
-No primeiro exemplo, suponha que dentro do diretório home, exista o diretório 'arquivos' e o subdiretório 'word'. Ao fazer isso, é possível acessa-los.
+Suponha que dentro do diretório home exista o diretório 'arquivos' e o subdiretório 'word'. Ao fazer isso, é possível acessá-los.
 
 ```sh
 cd arquivos/word
@@ -113,7 +111,7 @@ Ainda dentro do diretório home:
 cd /arquivos/word
 ```
 
-Nesse caso dará erro, porque vai puxar no diretório raiz e não existe esse tipo de caminho apartir do raiz, somente dentro do /home
+Nesse caso dará erro, porque vai buscar a partir do diretório raiz, e não existe esse caminho a partir do raiz — somente dentro de /home.
 
 Por convenção, ./ é o mesmo que sem a barra:
 
@@ -121,43 +119,43 @@ Por convenção, ./ é o mesmo que sem a barra:
 cd ./arquivos/word 
 ```
 
-Existem situações para que que para acessar os certos programas, como todo arquivos executaveis, é obrigatório o uso do ./
+Existem situações em que, para acessar certos programas — como todo arquivo executável —, é obrigatório o uso do ./
 
-### Porque arquivo executável precisa de ./
+### Por que arquivo executável precisa de ./
 
-Como foi citado anteriormente, os comandos do Linux são programas executaveis. Então os seguites motivos são:
+Como foi citado anteriormente, os comandos do Linux são programas executáveis. Os motivos são os seguintes:
 
 1 - Para evitar ambiguidade 
 
-Suponha que dentro do seu diretório '/home/nome-do-usuario' tenha um arquivo binário chamado ls. ls é o  nome do comando padrão do OS, o que significa que ao chamar o comando ls, ele sempre vai dar preferência ao comando global. Para executar o comando ls seu, é necessário usar o ./ls.
+Suponha que dentro do seu diretório '/home/nome-do-usuario' tenha um arquivo binário chamado ls. ls é o nome do comando padrão do OS, o que significa que, ao chamar o comando ls, ele sempre vai dar preferência ao comando global. Para executar o seu ls, é necessário usar ./ls.
 
-Porque existe um variável de ambiente chamado $PATH que mostra qual o caminho e prioridade o comando deve seguir. Para vizualizar:
+Isso acontece porque existe uma variável de ambiente chamada $PATH, que mostra qual o caminho e a prioridade que o comando deve seguir. Para visualizar:
 
 ```sh
 echo $PATH
 ```
 
-É a localização para buscar onde está o comando.
+É a localização usada para buscar onde está o comando.
 
-Então por convenção, sempre os executaveis é pedido ./, porque pode acontecer de algum dia o usuário criar um arquivo que tenha o nome igual dos comandos do Linux. 
+Então, por convenção, sempre que for executar um executável, é pedido o ./, porque pode acontecer de algum dia o usuário criar um arquivo com o mesmo nome de um comando do Linux. 
 
 2 - Segurança
 
-Imagina que você sem querer baixa um arquivo malicioso na suas pastas de fotos. As suas fotos estão no '/home/seu-usuario/fotos', e existe um arquivo malicioso chamado ls lá.
+Imagine que você, sem querer, baixa um arquivo malicioso na sua pasta de fotos. As suas fotos estão em '/home/seu-usuario/fotos', e existe um arquivo malicioso chamado ls lá.
 
-Quando executa o comando ls, ele não vai executar o ls dentro da sua pasta e sim o ls global (que está em $PATH, dito anteriormente) evitando erros de segurança acidentais.
+Ao executar o comando ls, ele não vai executar o ls dentro da sua pasta, e sim o ls global (que está no $PATH, dito anteriormente), evitando erros de segurança acidentais.
 
-Para executar o código interno, é preciso usar ./ que diz ao "***Ei Linux, eu quero executar não o ls padrão do sistema, e sim o ls que eu criei, que está dentro da pasta onde eu estou localizado***"
+Para executar o código interno, é preciso usar ./, que diz ao sistema: "***Ei Linux, eu quero executar não o ls padrão do sistema, e sim o ls que eu criei, que está dentro da pasta onde eu estou localizado***"
 
->[!TIP]
-> Para ver qual repositório está localizado no momento, use o comando pwd que significa 'print working directory'.
+> [!TIP]
+> Para ver em qual diretório você está localizado no momento, use o comando pwd, que significa 'print working directory'.
 > ```sh
 > pwd
 > ```
 
 ## Comando ~/
 
-O Comando serve para se redirecionar para o para o /home. Se no seu linux tem apenas um único usuário, então vai ir para o único usuário padrão.
+O comando serve para redirecionar para o /home. Se no seu Linux há apenas um único usuário, então vai ir para o único usuário padrão.
 
 ```sh
 cd ~/
@@ -165,13 +163,13 @@ cd ~/
 
 Irá para sua pasta '/home/seu-usuário'.
 
-É útil também para quando está em outras pastas fora de home, e der um cd '~/pagina/html'. Ou seja, vai direto para diretório home procurar a data desejada
+É útil também para quando você está em outras pastas fora de home e dá um cd '~/pagina/html'. Ou seja, vai direto para o diretório home procurar a pasta desejada.
 
-## Entendo o comando ls -l
+## Entendendo o comando ls -l
 
-Como sabemos o comando ls ele lista tudo arquilo que está no diretório. Já a opção -l, adiciona mais detalhes sobre esses diretório. E é isso que vamos explorar.
+Como sabemos, o comando ls lista tudo aquilo que está no diretório. Já a opção -l adiciona mais detalhes sobre esse conteúdo. E é isso que vamos explorar.
 
-Imagine que você está no diretório 'cd ~/' e que executou o comando um ls -ld no diretório .config. Como no exemplo abaixo:
+Imagine que você está no diretório 'cd ~/' e executou o comando ls -ld no diretório .config. Como no exemplo abaixo:
 
 ![img-comando-ls-ld](assets/debia-comando-ls.png)
 
@@ -179,79 +177,81 @@ Imagine que você está no diretório 'cd ~/' e que executou o comando um ls -ld
 
 #### Entendendo cada símbolo
 
-d -> A letra inical mostra qual o tipo daquela conteúdo. No caso d é um diretório. Exemplo: Se começar com - é um arquivo comum, se for l é um link simbólico. Ou seja, cada caractere inicial mostra o tipo desse conteúdo.
+d -> A letra inicial mostra qual é o tipo daquele conteúdo. No caso, d é um diretório. Exemplo: se começar com - é um arquivo comum, se for l é um link simbólico. Ou seja, cada caractere inicial mostra o tipo desse conteúdo.
 
-Após o caractere inicial, cada letra tem um signficado:
+Após o caractere inicial, cada letra tem um significado:
 
-r -> red significa ler <br>
+r -> read significa ler <br>
 w -> write significa (escrever/modificar) <br>
-x -> execute significa (executar ou "entrar" em caso de diretório)<br>
+x -> execute significa (executar ou "entrar", em caso de diretório)<br>
 '-' -> permissão nula
 
-#### Entendendo as divições
+#### Entendendo as divisões
 
-Essa string é dividiva em grupos de três, onde começa com apenas um caractere. Então fica:
+Essa string é dividida em grupos de três, precedidos por apenas um caractere. Então fica:
 
 ```sh
-d rwd --- ---
+d rwx --- ---
 ```
 
 * d -> é o tipo
 
-* rwx -> representa o conjunto do dono, ou seja, quais as permições o (user), o dono do diretório/arquivo pode ter.
+* rwx -> representa o conjunto do dono, ou seja, quais as permissões o (user), o dono do diretório/arquivo, pode ter.
 
-* --- > Esse segundo conjunto representa, os grupos.
+* --- -> Esse segundo conjunto representa os grupos.
 
-    Os grupos são quando há vários usuários e o dono quer dar permições coletivas.
+    Os grupos servem para quando há vários usuários e o dono quer dar permissões coletivas.
 
-    Imagina em uma empresa, os usuários João e Maria fazem parte do grupo Financeiro. É possível criar grupos e dar permissões para o grupo específico.
+    Imagine que, em uma empresa, os usuários João e Maria fazem parte do grupo Financeiro. É possível criar grupos e dar permissões para o grupo específico.
 
-* --- > Esse segundo grupo representa outros
+* --- -> Esse terceiro conjunto representa outros.
 
-    Outros, são demais usuários que não pertecem ao grupo ou não são donos.
+    Outros são os demais usuários que não pertencem ao grupo nem são donos.
 
-    Vamos supor que temos cadastrado no computador o usuário Joaquim. Como Joaquim não é dono e nem faz parte do grupo Financeiro, então para ele, ou seja, o resto do mundo não tera permissão de nada. Nem de r,w e x.
+    Vamos supor que temos cadastrado no computador o usuário Joaquim. Como Joaquim não é dono e nem faz parte do grupo Financeiro, então para ele — ou seja, o resto do mundo — não haverá permissão nenhuma. Nem de r, w e x.
 
 > [!TIP]
 >
-> É possível modificar, como colocar mudar o dono, colocar mais de um grupo, mexer nas mudar as permições de cada grupo, modificar as permições de others
+> É possível modificar essas permissões: mudar o dono, colocar mais de um grupo, alterar as permissões de cada grupo, modificar as permissões de others.
 
 ### O número '2'
 
-Esse número representa os hard links. Os hard links é um sistema interno que aponta para o arquivo. Isso significa que o arquivo/diretório não tem o conteúdo, e sim apenas a referência, onde os dois apontam para o disco.
+Esse número representa os hard links. Hard link é um sistema interno que aponta para o arquivo. Isso significa que o nome do arquivo/diretório não guarda o conteúdo em si, apenas a referência — ambos apontam para o mesmo lugar no disco.
 
 Exemplo: 
 
 ```sh
-ln arquivo1.txt > arquivo2.txt
+ln arquivo1.txt arquivo2.txt
 ```
 
-Tanto o arquivo1.txt como o arquivo2.txt estão apontando para o inode.
+Tanto o arquivo1.txt como o arquivo2.txt estão apontando para o mesmo inode.
 
-O Inode é um conjunto de metadados que mostra as informações daquele arquivo/diretório, e de maneira resumida, "tem" o conteúdo do disco daquela informação.
+O inode é um conjunto de metadados que mostra as informações daquele arquivo/diretório e, de maneira resumida, guarda o ponteiro para o conteúdo real no disco.
 
-Ou seja, se eu mudar o  arquivo1.txt, o arquivo2.txt também muda pois estão apontando para o mesmo conteúdo. E vice-versa.
+Ou seja, se eu mudar o arquivo1.txt, o arquivo2.txt também muda, pois ambos apontam para o mesmo conteúdo. E vice-versa.
 
 Aqui está uma imagem como exemplo:
 
 ![Hardlinks](assets/Inode-Arquivos.png)
 
-Existem 2 hardliks pois cada arquivo aponta para o mesmo Inode.
+Existem 2 hard links, pois cada arquivo aponta para o mesmo inode.
 
-Ou seja, se mudar o arquivo A o B também muda porque ambos estão apontados para o mesmo lugar.
+Se usar um ls -l, em ambos vai aparecer o número 2 na contagem de hard links — porque tanto arquivo-1 quanto arquivo-2 apontam para o mesmo inode.
+
+Ou seja, se mudar o arquivo A, o arquivo B também muda, porque ambos apontam para o mesmo lugar.
 
 > [!IMPORTANT]
-> Em diretórios, o . e o .. apontam para o Inode. Enquanto o . aponta para o própio diretório, em subdiretório o .. aponta para o pai, o que conta como hardlinks quando há subdiretórios
+> Em diretórios, o . e o .. apontam para inodes. Enquanto o . aponta para o próprio diretório, o .. aponta para o diretório pai — o que conta como hard link extra sempre que há subdiretórios.
 
 ### Dois nomes iguais
 
-O primeiro nome 'ismael' representa quem é o dono daquele tipo de arquivo. Ou seja, é o nome do meu user que foi configurado no momento da instalação do OS.
+O primeiro nome 'ismael' representa quem é o dono daquele arquivo. Ou seja, é o nome do meu usuário, configurado no momento da instalação do OS.
 
-Como estou na pasta home e no meu usuário, tudo aquilo que eu criar pertece a mim e cada usuário que for criado posteriormente terá seu própio diretório em home.
+Como estou na pasta home, no meu usuário, tudo aquilo que eu criar pertence a mim, e cada usuário criado posteriormente terá seu próprio diretório dentro de home.
 
-O segundo nome representa o grupo. Como eu sou o único usuário no meu OS, no momento da instalação é criado um grupo com o meu nome de usuário de maneira padrão, no caso do Debain. Outras distros podem mudar.
+O segundo nome representa o grupo. Como eu sou o único usuário no meu OS, no momento da instalação é criado um grupo com o mesmo nome do usuário, de maneira padrão, no caso do Debian. Outras distros podem mudar esse comportamento.
 
-Como foi dito em Tip, é possível mudar o nome do group e criar outros.
+Como foi dito na dica acima, é possível mudar o nome do grupo e criar outros.
 
 ### bytes
 
@@ -259,8 +259,60 @@ O número 4096 representa o tamanho daquele arquivo/diretório. Sua unidade de m
 
 ### Modificação
 
-'ago 4 : 16:22' é a data e hora da modificação
+'ago 4 16:22' é a data e hora da última modificação.
 
 ### .config
 
-É o nome do arquivo/diretório
+É o nome do arquivo/diretório.
+
+## Entendendo '..' e '.'
+
+Quando se usa 'ls -a' no diretório, encontram-se '.' e '..', que são entradas ocultas do sistema. Usando 'ls -al', dá para ver que tanto '.' quanto '..' são do tipo d, ou seja, diretórios.
+
+Enquanto . aponta para o mesmo diretório, .. aponta para o diretório pai.
+
+Como você pode ver na imagem abaixo, a entrada '.' que aponta para o próprio diretório tem 4 hard links. Nesse exemplo, estamos localizados no diretório /home.
+
+![hardlink-.and-..](assets/'.'e'..'hardlinks.png)
+
+Você pode estar se perguntando: por que 4 hard links?
+
+Bom, todo diretório tem dois hard links por padrão:
+
+1 - O nome padrão, que no caso é 'ismael' — ou seja, o nome do diretório visto pelo pai — apontando para o inode.
+
+2 - O próprio '.', que está dentro do diretório, apontando para si mesmo.
+
+E os outros dois? Bom, aí temos que entrar no diretório:
+
+![diretorios](assets/diretorio.png)
+
+Como você pode ver, dentro do diretório pai existem dois subdiretórios: .config e linuxpocketguide. Ao entrar em qualquer um desses subdiretórios e verificar o .., ele apontará de volta para o diretório pai.
+
+Ou seja, é por isso que 'ismael' tem 4 hard links: porque tanto .config quanto linuxpocketguide têm um .. apontando de volta para o diretório pai. Veja, neste exemplo, estamos dentro de .config:
+
+![config](assets/.config.png)
+
+Contabilizando o total, são 4 hard links.
+
+## Recursos do Bash
+
+Os recursos do Bash são uma forma de deixar seus comandos mais poderosos, o que facilita certas automatizações. Ao invés de listar todos os itens de uma lista, é possível usar certos recursos do próprio shell para filtrar, por exemplo, todos os arquivos ou diretórios que começam com a letra 'a'.
+
+Enquanto os comandos são programas escritos em C e estão fisicamente no diretório usr/bin, os recursos do shell são estruturas nativas que o próprio shell entende, pois ele foi feito para reconhecê-las.
+
+O Bash executa comandos, mas tem recursos que, em vez de rodar programas isolados, permitem combinar comandos diferentes com funcionalidades do próprio Bash, para automatizar tarefas.
+
+Os recursos do Bash podem ser: Globbing, Redirecionamento, Pipes, Variáveis de Ambiente e Variáveis do Shell. Ou seja, são muitos recursos para deixar seus comandos mais poderosos do que usá-los de forma isolada.
+
+Neste momento, vamos explorar alguns recursos do Bash.
+
+Por curiosidade, para saber onde o Bash está instalado, digite:
+
+```sh
+echo $SHELL
+```
+
+Existem vários shells, mas o Bash é um dos mais famosos.
+
+## Comandos coringas
