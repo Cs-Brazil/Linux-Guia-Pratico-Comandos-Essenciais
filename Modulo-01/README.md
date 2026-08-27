@@ -265,35 +265,51 @@ O número 4096 representa o tamanho daquele arquivo/diretório. Sua unidade de m
 
 É o nome do arquivo/diretório.
 
-## Entendendo '..' e '.'
+## Entendendo `.` e `..`
 
-Quando se usa 'ls -a' no diretório, encontram-se '.' e '..', que são entradas ocultas do sistema. Usando 'ls -al', dá para ver que tanto '.' quanto '..' são do tipo d, ou seja, diretórios.
+Quando você usa `ls -a` num diretório, aparecem duas entradas que normalmente ficam escondidas: `.` e `..`. Usando `ls -al`, dá pra ver que as duas são do tipo `d` — ou seja, são **diretórios** de verdade, não atalhos nem nada especial.
 
-Enquanto . aponta para o mesmo diretório, .. aponta para o diretório pai.
+- `.` aponta para o **próprio** diretório onde você está.
+- `..` aponta para o diretório **pai** (um nível acima).
 
-Como você pode ver na imagem abaixo, a entrada '.' que aponta para o próprio diretório tem 4 hard links. Nesse exemplo, estamos localizados no diretório /home.
+O interessante é que essas duas entradas não são "à parte" — elas contam como **hard links de verdade** pro inode do diretório. E é aí que mora a explicação do número que aparece na coluna de links do `ls -l`.
 
-![hardlink-.and-..](assets/'.'e'..'hardlinks.png)
+### Por que o diretório `/home/ismael` tem 4 hard links?
 
-Você pode estar se perguntando: por que 4 hard links?
+```sh
+$ ls -ld /home/ismael
+drwxr-xr-x 4 ismael ismael 4096 ago 27 10:00 /home/ismael
+```
 
-Bom, todo diretório tem dois hard links por padrão:
+Repara no `4` logo depois das permissões — essa coluna mostra quantos nomes (hard links) apontam pro inode daquele diretório. Pra chegar em 4, dá pra contar assim:
 
-1 - O nome padrão, que no caso é 'ismael' — ou seja, o nome do diretório visto pelo pai — apontando para o inode.
+**1 e 2 - os dois links "de fábrica" que todo diretório já nasce com:**
+1. O **nome do próprio diretório**, visto de fora — `ismael`, dentro de `/home`, apontando pro inode do diretório.
+2. A entrada **`.`** dentro dele mesmo, que aponta pra si próprio (mesmo inode).
 
-2 - O próprio '.', que está dentro do diretório, apontando para si mesmo.
+Só isso já dá 2. Todo diretório vazio (sem subpastas) tem exatamente esses 2 hard links.
 
-E os outros dois? Bom, aí temos que entrar no diretório:
+**3 e 4 - um a mais pra cada subdiretório direto:**
 
-![diretorios](assets/diretorio.png)
+Dentro de `/home/ismael` existem dois subdiretórios: `.config` e `linuxpocketguide`. Cada um deles tem, dentro de si, uma entrada `..` — e essa `..` aponta de volta pro pai (`/home/ismael`). Ou seja, cada subdiretório soma **mais um hard link** pro inode do pai.
 
-Como você pode ver, dentro do diretório pai existem dois subdiretórios: .config e linuxpocketguide. Ao entrar em qualquer um desses subdiretórios e verificar o .., ele apontará de volta para o diretório pai.
 
-Ou seja, é por isso que 'ismael' tem 4 hard links: porque tanto .config quanto linuxpocketguide têm um .. apontando de volta para o diretório pai. Veja, neste exemplo, estamos dentro de .config:
 
-![config](assets/.config.png)
+Esse `..` dentro de `.config` é o 3º hard link de `/home/ismael`. O `..` dentro de `linuxpocketguide` é o 4º.
 
-Contabilizando o total, são 4 hard links.
+### Resumindo a fórmula
+
+```text
+hard links do diretório = 2 (nome próprio + '.') + quantidade de subdiretórios diretos (cada um soma um '..')
+```
+
+No exemplo: `2 + 2 subdiretórios (.config e linuxpocketguide) = 4`.
+
+### Por que isso é útil saber
+
+Esse número na coluna de links é, na prática, um jeito rápido de saber **quantos subdiretórios diretos** uma pasta tem, sem precisar listar o conteúdo — é só pegar o total e subtrair 2. Alguns comandos e scripts antigos (tipo versões mais simples de `du` ou heurísticas de backup) usam justamente essa contagem como atalho de performance, em vez de varrer o diretório inteiro.
+
+**Importante:** isso só vale pra **diretórios**. Arquivos comuns não ganham hard links "de fábrica" eles começam com 1 link (o próprio nome), e só sobem se você criar hard links manualmente como será visto.
 
 ## Recursos do Bash
 
@@ -315,4 +331,65 @@ echo $SHELL
 
 Existem vários shells, mas o Bash é um dos mais famosos.
 
-## Comandos coringas
+## O que é Globbing e um resumo de links simbólicos
+
+Globbing é um recurso do Bash (não é exclusivo dele, outros shells também têm) para criar **filtros de nomes de arquivo/diretório**, usando caracteres coringa. Por exemplo, com o globbing é possível, num comando `ls`, filtrar apenas o que começa com a letra `a`, ou o que termina com `.config`.
+
+O globbing **não é um filtro no sentido de "programa que processa"** ele é feito pelo próprio shell **antes** do comando rodar. O shell olha o padrão, expande para os nomes que existem no disco e casam com aquele padrão, e só depois passa essa lista pronta como argumento pro comando (`ls`, `echo`, `rm`, etc).
+
+**Importante:** se o padrão não casar com nada, por padrão o Bash não "some" com o argumento, ele devolve a própria string literal do padrão, sem expandir. Ou seja, o comando recebe o texto do jeito que você escreveu, com isso o comando interpreta e não encontra aquilo que digitou porque simplesmente não existe.
+
+## Padrão `*`
+
+O `*` é o coringa mais comum e serve para representar "qualquer sequência de caracteres" (inclusive nenhuma). Ele funciona como um **preenchimento**: onde você põe o `*`, o shell aceita qualquer coisa ali.
+
+```sh
+echo /home/config*
+```
+
+Isso lista tudo que **começa com** `config` (o `*` está depois, preenchendo o que vem à direita), por exemplo `config`, `config.bak`, `configuracoes/`.
+
+```sh
+echo /home/*.config
+```
+
+Já isso lista tudo que **termina com** `.config` (o `*` está antes, preenchendo o que vem à esquerda) por exemplo `app.config`, `meu-projeto.config`.
+
+**Resumindo a lógica do `*`:** o coringa "puxa" pro lado oposto de onde ele está escrito. Se ele vem *depois* do texto fixo, o texto fixo é o começo do nome. Se ele vem *antes*, o texto fixo é o final do nome.
+
+## Filtrando só diretórios: a barra `/` no final
+
+Se você quer só pastas, "não quero arquivos, só diretórios", basta colocar uma `/` no final do padrão:
+
+```sh
+echo /home/config*/
+```
+
+Isso diz ao shell: "só me dê os resultados que, com essa barra no final, ainda formam um caminho de diretório válido". Isso inclui tanto **diretórios comuns** quanto **links simbólicos que apontam para diretórios** (lembra do `l` no começo da linha quando você faz `ls -l`?). Arquivos comuns e links que apontam pra arquivos ficam de fora.
+
+## Resumindo tudo
+
+| Padrão | O que faz |
+|---|---|
+| `config*` | Casa com o que **começa** com `config` |
+| `*.config` | Casa com o que **termina** com `.config` |
+| `config*/` | Casa com o que começa com `config` **e é diretório** (ou link pra diretório) |
+| Sem padrão nenhum casando | Bash devolve a **string literal** do jeito que foi escrita |
+
+ 
+## Pegadinha comum: `ls` "abrindo" as pastas sozinho
+ 
+Se você rodar `ls /home/config*/` (ou `ls /home/*/`) e o resultado vier com o **conteúdo de dentro** das pastas em vez dos nomes das pastas, não é o glob que fez isso — é o comportamento padrão do `ls`.
+ 
+Por padrão, quando você passa um **diretório** como argumento pro `ls`, ele não lista o nome do diretório: ele entra e lista o que tem **dentro**. O glob só entregou os nomes dos diretórios pro `ls`; quem decidiu "abrir" cada um foi o próprio `ls`.
+ 
+Pra ver só os nomes dos diretórios, sem abrir o conteúdo, use a flag `-d`:
+ 
+```sh
+ls /home/config*/       # abre cada diretório e lista o conteúdo de dentro
+ls -d /home/config*/    # lista só os nomes dos diretórios, sem entrar neles
+```
+ 
+Essa é a confusão mais comum: parece que o `*/` "não filtrou direito", mas na real o filtro funcionou certinho — quem entrou nas pastas foi o `ls` sem o `-d`.
+ 
+
