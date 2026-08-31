@@ -392,4 +392,7 @@ ls -d /home/config*/    # lista só os nomes dos diretórios, sem entrar neles
  
 Essa é a confusão mais comum: parece que o `*/` "não filtrou direito", mas na real o filtro funcionou certinho quem entrou nas pastas foi o `ls` sem o `-d`.
  
+## Outros padrões
+
+Existem outros padrões de filtro que é o `?`, que representa um unico caractere e o `[]` onde é possivel buscar por um intervalo.
 
