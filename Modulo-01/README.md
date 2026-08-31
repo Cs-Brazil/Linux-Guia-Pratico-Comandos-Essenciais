@@ -331,7 +331,7 @@ echo $SHELL
 
 Existem vários shells, mas o Bash é um dos mais famosos.
 
-## O que é Globbing e um resumo de links simbólicos
+## O que é Globbing
 
 Globbing é um recurso do Bash (não é exclusivo dele, outros shells também têm) para criar **filtros de nomes de arquivo/diretório**, usando caracteres coringa. Por exemplo, com o globbing é possível, num comando `ls`, filtrar apenas o que começa com a letra `a`, ou o que termina com `.config`.
 
