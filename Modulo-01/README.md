@@ -307,7 +307,7 @@ No exemplo: `2 + 2 subdiretórios (.config e linuxpocketguide) = 4`.
 
 ### Por que isso é útil saber
 
-Esse número na coluna de links é, na prática, um jeito rápido de saber **quantos subdiretórios diretos** uma pasta tem, sem precisar listar o conteúdo — é só pegar o total e subtrair 2. Alguns comandos e scripts antigos (tipo versões mais simples de `du` ou heurísticas de backup) usam justamente essa contagem como atalho de performance, em vez de varrer o diretório inteiro.
+Esse número na coluna de links é, na prática, um jeito rápido de saber **quantos subdiretórios diretos** uma pasta tem, sem precisar listar o conteúdo — é só pegar o total e subtrair 2. 
 
 **Importante:** isso só vale pra **diretórios**. Arquivos comuns não ganham hard links "de fábrica" eles começam com 1 link (o próprio nome), e só sobem se você criar hard links manualmente como será visto.
 
@@ -390,6 +390,6 @@ ls /home/config*/       # abre cada diretório e lista o conteúdo de dentro
 ls -d /home/config*/    # lista só os nomes dos diretórios, sem entrar neles
 ```
  
-Essa é a confusão mais comum: parece que o `*/` "não filtrou direito", mas na real o filtro funcionou certinho — quem entrou nas pastas foi o `ls` sem o `-d`.
+Essa é a confusão mais comum: parece que o `*/` "não filtrou direito", mas na real o filtro funcionou certinho quem entrou nas pastas foi o `ls` sem o `-d`.
  
 
