@@ -398,26 +398,15 @@ Existem outros padrões de filtro que é o `?`, que representa um unico caracter
 
 ## Variáveis de Ambiente
 
-As variáveis de Ambiente são valoes do OS que podem ser consultadas em tempo de execução. 
-É como se fosse váriaveis no desenvolvimento de software, onde é possivel puxar informações, ou modificar. As variáveis de ambiente tem, as configurações que mostram seu nome de usuários, o formato de data e hora para o sistema, qual será o editor de código padrão e etc.
+As variáveis de ambiente são valores do OS que podem ser consultadas em tempo de execução. É como se fosse váriaveis no desenvolvimento de software, onde é possivel acessar, ou modificar informações. As variáveis de ambiente tem configurações que mostram seu nome do usuário, o formato de data e hora para o sistema, qual será o editor de código padrão e etc.
 
 ### Variáveis e ambiente vs variáveis de shell
 
-Como dito anteriormente, as variáveis de ambiente são valores que pertecem ao o OS. Isso significa que se desligar o computador, abrir um novo shell elas vão continuar existindo.
+Como dito anteriormente, as variáveis de ambiente são valores que pertecem ao o OS. Isso significa que se desligar o computador ou abrir um novo shell, elas vão continuar existindo.
 
-Já as variáveis de shell, são valores que se criam e estão disponiveis no shell. Se executar um novo shell como:
+Já as variáveis de shell, são valores que pertecem apenas aquele shell específico onde foram criadas. Isso significa que se criar um shell pai, o shell filho não terá acesso aquela variável
 
-```sh
-shell
-```
-
-A variável de ambiente que criou no shell anterior não estará disponivel. Para retornar ao shell anterior, use:
-
-```sh
-exit
-```
-
-Com isso vc retornar ao shell anterior e pode usar sua variável de shell.
+As variáveis de ambiente pode ser acessadas por qualquer shell
 
 ### Criando uma variável de ambiente
 
@@ -441,9 +430,9 @@ source ~/.bashrc
 
 > ![IMPORTANT]
 >
-> Se não colocar 'export' na criação da sua variável de ambiente, o 'env' não irá conseguir listar, porque sem 'export' sua variável será de shell e não de ambiente. No caso se for uma variável de shell, é necessário usar o comando `set` ou `echo $MYVAR`para lista-lo.
+> Se não colocar 'export' na criação da sua variável de ambiente, o 'printenv' não irá conseguir listar, porque sem 'export' sua variável será de shell e não de ambiente. No caso se for uma variável de shell, é necessário usar o comando `set` ou `echo $MYVAR`para lista-lo.
 
-No nosso exemplo, estámos criando variáves de ambiente local, ou seja, especifica para o seu usuário. Para variáveis gloabis, é necessário colocar no `/etc/environment`, o que precisa de permissão de adiministrador. É um pouco mais compicado de mexer, não vamos fazer isso agora.
+No nosso exemplo, estámos criando variáves de ambiente local, ou seja, especifica para o seu usuário. Para variáveis globais, é necessário colocar no `/etc/environment`, o que precisa de permissão de adiministrador. É um pouco mais compicado de mexer, não vamos fazer isso agora.
 
 ### `printenv` vs `echo`
 
