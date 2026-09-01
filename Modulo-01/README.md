@@ -396,3 +396,71 @@ Essa é a confusão mais comum: parece que o `*/` "não filtrou direito", mas na
 
 Existem outros padrões de filtro que é o `?`, que representa um unico caractere e o `[]` onde é possivel buscar por um intervalo.
 
+## Variáveis de Ambiente
+
+As variáveis de Ambiente são valoes do OS que podem ser consultadas em tempo de execução. 
+É como se fosse váriaveis no desenvolvimento de software, onde é possivel puxar informações, ou modificar. As variáveis de ambiente tem, as configurações que mostram seu nome de usuários, o formato de data e hora para o sistema, qual será o editor de código padrão e etc.
+
+### Variáveis e ambiente vs variáveis de shell
+
+Como dito anteriormente, as variáveis de ambiente são valores que pertecem ao o OS. Isso significa que se desligar o computador, abrir um novo shell elas vão continuar existindo.
+
+Já as variáveis de shell, são valores que se criam e estão disponiveis no shell. Se executar um novo shell como:
+
+```sh
+shell
+```
+
+A variável de ambiente que criou no shell anterior não estará disponivel. Para retornar ao shell anterior, use:
+
+```sh
+exit
+```
+
+Com isso vc retornar ao shell anterior e pode usar sua variável de shell.
+
+### Criando uma variável de ambiente
+
+```sh
+# Veja todas as variáveis de ambiente no OS. printenv = (print envoriment)
+printenv 
+
+#Definir temporariamente só na seção
+export MINHA_VAR="valor" # com o export, a variável não vai pertencer somente ao seu shell, mas se desligar o pc ela não persistirá. Por isso é necessário salvar
+
+# Agora sua variável de ambiente está salva
+echo 'export MINHA_VAR="valor"' >> ~/.bashrc
+
+# Recarrega o .bashrc
+source ~/.bashrc
+```
+
+> ![IMPORTANT]
+> 
+> O source é importante, porque está alterando o disco, pois quando você faz o source o linux pega as informações do disco e recarrega na RAM
+
+> ![IMPORTANT]
+>
+> Se não colocar 'export' na criação da sua variável de ambiente, o 'env' não irá conseguir listar, porque sem 'export' sua variável será de shell e não de ambiente. No caso se for uma variável de shell, é necessário usar o comando `set` ou `echo $MYVAR`para lista-lo.
+
+No nosso exemplo, estámos criando variáves de ambiente local, ou seja, especifica para o seu usuário. Para variáveis gloabis, é necessário colocar no `/etc/environment`, o que precisa de permissão de adiministrador. É um pouco mais compicado de mexer, não vamos fazer isso agora.
+
+### `printenv` vs `echo`
+
+O `printenv` foi programado para ler a memória interna do sistema. Ele precisa saber o nome da gaveta (USER) para abrir e olhar o que tem dentro. Se você der o valor para ele usando $USER, ele vai tentar procurar uma gaveta chamada `joao`, que não existe.
+
+```sh
+printenv $HOME #O shell não vai encontrar pois o valor é seu-usuario
+```
+
+O certo é sem o `$` para esses comandos especiais, porque é são comandos específicos para gerenciar váriaveis. 
+
+Como foi dito anteriormente, o `printenv` serve apenas para printar variáveis de ambiente, porém o `echo` consegue ler tanto variáveis de ambiente como de shell. O `echo` e outros comandos,  não conseguem acessar o variável nativamente, porque é necessario o `$`.
+
+O `$` é uma função especifica do própio shell, capaz de entregar o valor da variável para o comando como argumento. Ou seja:
+
+```sh
+ls -ld $HOME
+```
+
+A maior parte dos comandos não acessam as variáveis por conta própia
