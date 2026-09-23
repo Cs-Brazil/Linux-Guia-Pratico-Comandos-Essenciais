@@ -50,7 +50,7 @@ Os programas podem receber informações de duas formas principais: por **argume
 
 **Argumentos** são valores passados na linha de comando. Em muitos comandos, eles indicam onde os dados estão, ou seja, o caminho.
 
-Já a **stdin** fornece os próprios dados ao programa. Esses dados podem vir do teclado, de um pipe (`|`) ou de um redirecionamento (`<`).
+Já a **stdin** recebe os próprios dados. Esses dados podem vir do teclado, de um pipe (`|`) ou de um redirecionamento (`<`).
 
 > [!IMPORTANT]
 > Existem dois tipos de argumentos: as *opções* e o *alvo*. Nesse contexto, trata-se dos argumentos *alvo*.
