@@ -452,4 +452,101 @@ O `$` é uma função especifica do própio shell, capaz de entregar o valor da 
 ls -ld $HOME
 ```
 
-A maior parte dos comandos não acessam as variáveis por conta própia
+A maior parte dos comandos não acessam as variáveis por conta própia.
+
+## Caminhos de Busca
+
+Para localizar um comando no linux, use  which ou type.
+
+```sh
+which how
+
+# /usr/bin/who
+```
+
+### Alises
+
+Alises são abreviações de estrutura de comandos. Inves de a todo momento digitar:
+
+```sh
+ls -lG
+```
+
+É possível criar seus própios comandos para simplificar a escrita
+
+```sh
+alias td='ls -l'
+```
+
+No momento de digitar seu própio comando:
+
+```sh
+td # Executa o mesmo que ls -l
+```
+
+Esse novo comando, tem que ser salvo no ~/.bashrc para ser disponivel em outros shells futuros. 
+
+> ![IMPORTANT]
+> Alias, export e cd são comandos do shell e não scrips em c. O própio shell tem isso programado.
+
+Para saber se um comando é um alias, ou se é um shell interno ou um um comando script c (comando de arquivos), use type
+
+```sh
+type cd l ll
+```
+
+## Entrada Saída e Redirecionamento
+
+## Uso de `<`
+
+O comando `<` permite ao shell, pegar o conteúdo do argumento e jogar ele ao comando, de maneira automática, acessando apenas os dados. Sem o `<`, é o comando que vai até o inode e procura o conteúdo, para que seja procesado. Então qual a diferença?
+
+1. Linha de Montagem: Se um comando aceita `<`, então aceitará pipes `|`
+
+```sh
+grep "error" < file.txt
+```
+
+```sh
+cat file.txt | grep "error"
+```
+
+2. Existem comandos que permitem entrada de dados, ou seja, é possivel coloar um script para colocar dados automaticos, como por exemplo um banco de dados que precis ser alimentado. Inves de colocar tudo manualmente, já entrega um arquivo com todas informações `comando < file`
+
+3. Limpar saida do terminal: Há certos comandos como `wc` que no output, não mostram o dado puro como:
+
+```sh
+wc -l arquivo.txt #stdout: 10 arquivo.txt
+```
+
+```sh
+wc -l < arquivo.txt #stdout: 10
+```
+
+Isso é interessante se precisar fazer calculos. Uma forma comum de limpar a saida.
+
+## Criando arquivos
+
+1. `comando > outifile` cria ou altera ou sobrepõe o outfile
+2. `comando >> outfile` adiciona conteudo para o arquivo
+
+> ![IMPORTANT]
+>
+> É usado para criar arquivos simples, como um arquivo de texto que o Linux aceita de maneira facil.
+> Já outros arquivos como o pdf, é mais complexo porque depende de aplicações que o Linux não suporta nativamente, por isso é importante baixar.
+
+É possível salvar o comando do log de error:
+
+```sh
+cat "oi" > teste.txt 2> errorfile.txt
+```
+
+O cat é um comando que abre arquivos, ao executar este código, ele cria `teste.txt` e `errorfile.txt`, se não existir é claro. Se o comando não der erro, vai escrever em `teste.txt` e se der erro vai escrever em `errorfile.txt`. Isso é usado em opções combinadas. 
+
+Ou seja, se o arquivo"oi" existir escreve o conteúdo no `teste.txt` se não escreva no `errorfile.txt`.
+
+```sh
+cat "oi" &> errorfile.txt
+```
+
+Já esse comando, cria um arquivo unico para o erro, se der erro apenas escreve o log de erro que é chamados `stderr`, qué é abreviação de *standard error*. m
