@@ -549,4 +549,49 @@ Ou seja, se o arquivo"oi" existir escreve o conteúdo no `teste.txt` se não esc
 cat "oi" &> errorfile.txt
 ```
 
-Já esse comando, cria um arquivo unico para o erro, se der erro apenas escreve o log de erro que é chamados `stderr`, qué é abreviação de *standard error*. m
+Já esse comando, cria um arquivo unico para o erro, se der erro apenas escreve o log de erro que é chamados `stderr`, qué é abreviação de *standard error*. 
+
+## Sequência de comandos
+
+Para acessar comandos em sequencia coloque `;`
+
+```sh
+echo "oi" ; ls -a ; cat file.txt
+```
+
+## Substituição de Comando
+
+Inves de um comando ser digitado literalmente em uma estrutura, como o própio echo, a sua sai vai ser cocatenada. Exemplo:
+
+```sh
+echo "Esse documento vai valer para o ano de $(expr $(date +%Y) + 2 '*' 3)"
+# Esse documento vai valer para o ano de 2032
+```
+
+Esse comando usa expressões numericas, e na matemática, a multiplicação é contabilizada primeira que a adição.
+
+Já o `date +%Y`, filtra o ano da data. E o `expr` é usado para fazer expressões numéricas.
+
+Todos estão em `$()`, pois são comandos que tem espaço, pois o echo vai interpretar como um texto literal. Com isso, o que o echo vai escrever é o stdout. Se fosse apeans uma varável normal, usasse apenas `$value`.
+
+## Substituição de processo
+
+A substituição de processos, é quando determinados comandos não aceita stdin, ou seja, dados brutos. Alguns comandos apenas aceitam o argumento de arquivos, o que impede a utilização deles em pipes. Com isso o linux tem a substituição de processos, que ao inves de jogar dados brutos para o comando, que no caso, dá erro, os dados brutos são jogados em arquivos virtuais, que ficam na memória ram e após o uso é limpo. O comando mais famoso é o `diff` que é usado para comparar linha a linha arquivos e ver a diferença nesses arquivos.
+
+```sh
+diff arquivo1.txt arquivo2.txt # le os dois arquivos e compara a diferença
+```
+
+Como dito anteriormente o grande problema, é que ele não aceita stdin. Uma das soluções é usar <(), é como se ele recebesse os dados brutos, porém esses dados estão em um arquivo virtual.
+
+
+
+Exemplo:
+
+```sh
+diff <(ls *pdf | cut -d. -f2) <(ls *pdf | cut -d. -f1)
+```
+
+Supomos que temos dois arquivos `arquivo1.pdf` e `arquivo2.pdf`, os comando `ls *pdf` lista todos os arquivos que terminam com pdf, joga a stdout para `cut`.  O cut é um comando que extrai o texto e corta. A opção `-d` é possivel escolher em qual ponto do texto, quer quebrar em partes. Como escolhemos o `.`, então vamos ter o `arquivo1` e `pdf`. Com os dois separados, podemos escolher se o stdout vai ser `arquivo1` ou `pdf`. Se `-f1` então a escolha é `arquivo1`, se `-f2` então é `pdf` e se tiver um terceiro, então é `-f3` e assim por diante.
+
+É como se o diff tivesse recebendo a stdout de ls e cut. Porém não é, apenas um arquivo virtual que fica na memória RAM.
