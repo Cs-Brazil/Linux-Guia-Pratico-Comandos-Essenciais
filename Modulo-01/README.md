@@ -572,7 +572,7 @@ Esse comando usa expressões numericas, e na matemática, a multiplicação é c
 
 Já o `date +%Y`, filtra o ano da data. E o `expr` é usado para fazer expressões numéricas.
 
-Todos estão em `$()`, pois são comandos que tem espaço, pois o echo vai interpretar como um texto literal. Com isso, o que o echo vai escrever é o stdout. Se fosse apeans uma varável normal, usasse apenas `$value`.
+Todos estão em `$()`, pois são comandos que tem espaço, pois o echo vai interpretar como um texto literal. Com isso, o que o echo vai escrever é o stdout. Se fosse apeans uma varável normal, usasse apenas `$value`. Como `date` não é uma variável de ambiente, é apenas um comando, use `date`
 
 ## Substituição de processo
 
@@ -595,3 +595,4 @@ diff <(ls *pdf | cut -d. -f2) <(ls *pdf | cut -d. -f1)
 Supomos que temos dois arquivos `arquivo1.pdf` e `arquivo2.pdf`, os comando `ls *pdf` lista todos os arquivos que terminam com pdf, joga a stdout para `cut`.  O cut é um comando que extrai o texto e corta. A opção `-d` é possivel escolher em qual ponto do texto, quer quebrar em partes. Como escolhemos o `.`, então vamos ter o `arquivo1` e `pdf`. Com os dois separados, podemos escolher se o stdout vai ser `arquivo1` ou `pdf`. Se `-f1` então a escolha é `arquivo1`, se `-f2` então é `pdf` e se tiver um terceiro, então é `-f3` e assim por diante.
 
 É como se o diff tivesse recebendo a stdout de ls e cut. Porém não é, apenas um arquivo virtual que fica na memória RAM.
+
