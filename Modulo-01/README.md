@@ -525,7 +525,7 @@ wc -l < arquivo.txt #stdout: 10
 
 Isso é interessante se precisar fazer calculos. Uma forma comum de limpar a saida.
 
-## Criando arquivos
+## Criando arquivos 
 
 1. `comando > outifile` cria ou altera ou sobrepõe o outfile
 2. `comando >> outfile` adiciona conteudo para o arquivo
@@ -626,4 +626,4 @@ Mas existem motivos de executar comandos em segundo plano no shell, mesmo quando
 
 1. Quando está executando um script, é  preciso de uma saída. Porém a saída padrão é o terminal atual. Imagine por exemplo, você precisa de digitar um comando no seu terminal, e há texto sendo escrito? Fica extremamente dificíl e muito desorganizado. Para isso, o tópico `redirecionamento de saída`, será necessário para jogar as saídas de sucesso e erro em arquivos de logs.
 
-2. 
+2. Outro motivo, é os logs de erro. Se rodar um script, por exemplo, um programa, é possivel ter redirecinamento de erros para entender o que falhou. Como os logs são jogados nos arquivos torna possível verificar.
