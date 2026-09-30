@@ -549,7 +549,9 @@ Ou seja, se o arquivo"oi" existir escreve o conteúdo no `teste.txt` se não esc
 cat "oi" &> errorfile.txt
 ```
 
-Já esse comando, cria um arquivo unico para o erro, se der erro apenas escreve o log de erro que é chamados `stderr`, qué é abreviação de *standard error*. 
+Já esse comando, cria um arquivo unico para o erro e para o sucesso juntos. Se der erro apenas escreve o log de erro que é chamado de `stderr`, qué é abreviação de *standard error*. 
+
+Significa "Jogue o comando de sucesso & o comando de erro"
 
 ## Sequência de comandos
 
@@ -584,8 +586,6 @@ diff arquivo1.txt arquivo2.txt # le os dois arquivos e compara a diferença
 
 Como dito anteriormente o grande problema, é que ele não aceita stdin. Uma das soluções é usar <(), é como se ele recebesse os dados brutos, porém esses dados estão em um arquivo virtual.
 
-
-
 Exemplo:
 
 ```sh
@@ -596,3 +596,22 @@ Supomos que temos dois arquivos `arquivo1.pdf` e `arquivo2.pdf`, os comando `ls 
 
 É como se o diff tivesse recebendo a stdout de ls e cut. Porém não é, apenas um arquivo virtual que fica na memória RAM.
 
+## Histórico de comandos
+
+O Linux mostra os comandos em que digitou anteriormente. Para vizulizar todo os comandos, digite
+
+```sh
+history
+```
+
+Se quiser reexecutar o comando que está no history, mas está por exemplo 10/50 de comandos digitados, então use:
+
+```sh
+history 10
+```
+
+Para apagar todo o histórico
+
+```sh
+history -c
+```
