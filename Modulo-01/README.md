@@ -525,7 +525,7 @@ wc -l < arquivo.txt #stdout: 10
 
 Isso é interessante se precisar fazer calculos. Uma forma comum de limpar a saida.
 
-## Criando arquivos 
+## Criando arquivos  (redirecinamento de saída)
 
 1. `comando > outifile` cria ou altera ou sobrepõe o outfile
 2. `comando >> outfile` adiciona conteudo para o arquivo
@@ -546,12 +546,20 @@ O cat é um comando que abre arquivos, ao executar este código, ele cria `teste
 Ou seja, se o arquivo"oi" existir escreve o conteúdo no `teste.txt` se não escreva no `errorfile.txt`.
 
 ```sh
-cat "oi" &> errorfile.txt
+cat "oi" &> errorfileAndoutfile.txt
 ```
 
 Já esse comando, cria um arquivo unico para o erro e para o sucesso juntos. Se der erro apenas escreve o log de erro que é chamado de `stderr`, qué é abreviação de *standard error*. 
 
 É como se escrevesse "Jogue a saída de sucesso & a saída de erro no mesmo arquivo"
+
+Resumo de tudo:
+
+```
+> --> É o stdout, é saída padrão, um texto que o comando sai.
+2> --> É saída dos logs de erro, stderr.
+&> --> É o stdout e stderr no mesmo arquivo.
+```
 
 ## Sequência de comandos
 
