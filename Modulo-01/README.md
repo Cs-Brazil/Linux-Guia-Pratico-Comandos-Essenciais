@@ -551,7 +551,7 @@ cat "oi" &> errorfile.txt
 
 Já esse comando, cria um arquivo unico para o erro e para o sucesso juntos. Se der erro apenas escreve o log de erro que é chamado de `stderr`, qué é abreviação de *standard error*. 
 
-Significa "Jogue o comando de sucesso & o comando de erro"
+É como se escrevesse "Jogue a saída de sucesso & a saída de erro no mesmo arquivo"
 
 ## Sequência de comandos
 
@@ -615,3 +615,15 @@ Para apagar todo o histórico
 ```sh
 history -c
 ```
+
+## Comandos de segundo plano e controle de tarefas
+
+Uma das ferramentas do shell, é a capacidade se executar comandos em segundo plano. Isso é util por exemplo, quando você roda um script em looping ou que tem vários passos mas é necessario ainda usar o cursor do shell.
+
+O que é mais comum hoje em dia é usar o `tmux`, ou seja, seu comando está sendo executado e é aberto outro terminal. Pensa no windows, existem processos acontecendo no terminal como um download e quer abrir um outro terminal para mexer.
+
+Mas existem motivos de executar comandos em segundo plano no shell, mesmo quando há a possibilidade de abrir um novo terminal. Veja os argumentos:
+
+1. Quando está executando um script, é  preciso de uma saída. Porém a saída padrão é o terminal atual. Imagine por exemplo, você precisa de digitar um comando no seu terminal, e há texto sendo escrito? Fica extremamente dificíl e muito desorganizado. Para isso, o tópico `redirecionamento de saída`, será necessário para jogar as saídas de sucesso e erro em arquivos de logs.
+
+2. 
