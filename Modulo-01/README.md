@@ -558,7 +558,7 @@ Resumo de tudo:
 ```
 > --> É o stdout, é saída padrão, um texto que o comando sai.
 2> --> É saída dos logs de erro, stderr.
-&> --> É o stdout e stderr no mesmo arquivo.
+&> --> É o stdout e stderr no mesmo local de saída.
 ```
 
 ## Sequência de comandos
@@ -635,3 +635,147 @@ Mas existem motivos de executar comandos em segundo plano no shell, mesmo quando
 1. Quando está executando um script, é  preciso de uma saída. Porém a saída padrão é o terminal atual. Imagine por exemplo, você precisa de digitar um comando no seu terminal, e há texto sendo escrito? Fica extremamente dificíl e muito desorganizado. Para isso, o tópico `redirecionamento de saída`, será necessário para jogar as saídas de sucesso e erro em arquivos de logs.
 
 2. Outro motivo, é os logs de erro. Se rodar um script, por exemplo, um programa, é possivel ter redirecinamento de erros para entender o que falhou. Como os logs são jogados nos arquivos torna possível verificar.
+
+Como foi dito, a maioria dos comandos são scripts. Alguns são alises ou comandos que pertencem o própio shell.
+É possível usuários criar um script. Vamos criar um script `C` para entender como os comandos jogam saídas padrão de erro ou esperam uma entrada.
+
+Copie o código simples abaixo:
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main(){
+
+    printf("Fazendo um teste no arquivo \n \n"); //stdout
+    fflush(stdout); //envia o buffer para a saída
+
+    int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    for(int i = 0; i <= 9; i++)
+    {
+        if(a[i] % 2 == 0)
+        {
+            printf("Número %d é um numero número par\n", a[i]); //stdout
+            fflush(stdout); 
+        }
+        else
+        {
+            fprintf(stderr, "Número %d não é um par\n", a[i]); //stderr
+            //stderr não tem buffer
+        }
+
+        sleep(2);
+    }
+
+    return 0;
+}
+```
+
+Crie um arquivo usando vim que é um dos principais editores de código open source, porém serve para editar diferente tipos de arquivos:
+
+```sh
+vim program.c
+```
+
+Com o vim aberto aperte `i` para entrar no modo de inserir. Insira ou cole o código. Saia com clicando em `Esc`, digite e `:wq` para salvar e sair.
+
+Após salvar o código e sair do `vim`, é preciso fazer o redirecionamento de saída. Como ele é um script o `stdout` vai ir para o um arquivo de log. 
+
+Compile usando o `gcc`: 
+
+```sh
+gcc program.c -o imparOuPar
+```
+
+É preciso compilar o programa, pois o computador apeanas entende formatos binários
+
+```sh
+imparOuPar &> logs.txt
+```
+
+Se executar esse comando, ele vai rodar em primeiro plano. Para em segundo plano use coloque um & no final.
+
+```sh
+imparOuPar &> logs.txt &
+```
+
+Por curiosidade, existem scripts que precisam de um stdin. Quando o comando exige stdin, é perguntado ao termial. Vamos supor que vc tem dados de vários clientes:
+
+```sh
+meuProgramaQueExigeEntrada < dadosDoUsuário.txt &> logs.txt &
+```
+
+Ou seja, programada já alimentado com os dados principais
+
+Para ver o que está rodando em segundo plano no nosso shell, use:
+
+```sh
+jobs
+```
+
+`jobs` é um comando para verificar quais processos estão em segundo plano no momento. Ao usar Jobs, verá que existem etapas que estão rodando o processo em segundo plano.
+
+Vamos supor que faz um script para baixar catalos de peças automotivas na internet. Se não rodar o processo em segundo plano, não é possível usar o terminal atual.
+
+Como dito anteriormente, o redirecinamento é para onde irá os dados, mesmo rodando o processo em segundo plano, o padrão de saída é o terminal. Você vai conseguir usar o cursor, porém irá ficar baguçando pq enquanto digita o comando o script está tacando logs na tela.
+
+Veja o exemplo abaixo:
+
+![jobs](assets/executando_script_1.png)
+
+Nesse exemplo, eu estou redirecionando duas saídas, uma é o stdout e outra o stderr para arquivos diferentes.
+
+Se quiser ver em tempo real os logs, use
+
+```sh
+tail -f stdout.txt #stdout.txt é apenas o nome do meu arquivo. Use o nome do seu arquivo
+```
+
+Nesse caso, ele irá abrir em tempo real, o que está acontecendo no arquivo `stdout.txt`
+
+Existem maneiras de encerrar o programa com `kill` ou suspender. Quando você usa `jobs`, é possível ver o número do processo. 
+
+Para encerrar um programa use:
+
+```sh
+kill %1
+```
+
+Esse `%1` é o argumento usado para dizer ao programa qual processo quer encerrar.
+
+Se quer suspender, use:
+
+```sh
+kill -STOP %1
+```
+
+E quiser voltar? Use:
+
+```sh
+bg %1
+```
+
+O `bg` é um comando para deixar o processo rodando em background, ou seja, é programa retorna em background como estava. `bg` é a abreviação de *background*
+
+Há também é o `fg` que no caso é significa *foreground*. Quando um processo está rodando em segundo plano, é possível voltar ele para para o seu terminal, onde você está. Porém, ao retornar o seu terminal fica travado, esperando o processo acabar para que faça outras coisas. Veja o exemplo:
+
+```sh
+fg %1
+```
+
+Se quiser sair do terminal travado enquanto o processo espera, use `Crtl + Z`, isso irá fazer a sua tarefa pausar, igual o `kill -STOP %1` e liberar seu terminal`
+
+Pausado e o terminal, use o `bg %1` para continuar rodando em segundo plano.
+
+Mas deve estar se perguntando o porquê de rodar um processo em primeiro plano, sendo que o termianal fica travado?
+
+1. Existem programas que precisam de uma estrada de usuário como `Digite sua senha`, então o que estava rodando em segundo plano, fica em primeiro plano para esperar o usário digitar
+
+2. As vezes, você quer a saída viva no terminal e ver como o programa está se comportando, então apenas execute o comando normalmente.
+
+Existem momentos que começou a rodar em primeiro plano e viu que iria demorar muito. Se você direcionou a saída para arquivos, use `Crtl + Z` para pausar e use `bg 1%`.
+
+Se rodou em primeiro plano e a saida está no terminal use, `Ctrl + C` para encerrar. Em segundo plano use o `kill -STOP %1`
+
+Lebrando que `%1` é o numero dos processos, as vezes podem ter vários processos em segundo plano. Você escolhe o número desejado.
