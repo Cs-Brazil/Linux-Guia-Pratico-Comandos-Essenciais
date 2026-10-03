@@ -495,13 +495,15 @@ Para saber se um comando é um alias, ou se é um shell interno ou um um comando
 type cd l ll
 ```
 
-## Entrada Saída e Redirecionamento
+## Entrada, Saída e Redirecionamento
 
-## Uso de `<`
+### Uso de `<`
 
-O comando `<` permite ao shell, pegar o conteúdo do argumento e jogar ele ao comando, de maneira automática, acessando apenas os dados. Sem o `<`, é o comando que vai até o inode e procura o conteúdo, para que seja procesado. Então qual a diferença?
+O `<` pega o conteúdo de um **arquivo** e entrega ao comando pela entrada padrão (`stdin`). Quem abre o arquivo é o próprio shell, e o comando recebe só os dados, sem saber de onde vieram. Sem o `<`, é o comando que recebe o nome do arquivo como argumento, abre e lê por conta própria.
 
-1. Linha de Montagem: Se um comando aceita `<`, então aceitará pipes `|`
+Então qual a diferença?
+
+1. **Linha de montagem:** um comando que lê do `stdin` aceita tanto `<` quanto pipe `|`. Os dois resultados são iguais:
 
 ```sh
 grep "error" < file.txt
@@ -511,19 +513,32 @@ grep "error" < file.txt
 cat file.txt | grep "error"
 ```
 
-2. Existem comandos que permitem entrada de dados, ou seja, é possivel coloar um script para colocar dados automaticos, como por exemplo um banco de dados que precis ser alimentado. Inves de colocar tudo manualmente, já entrega um arquivo com todas informações `comando < file`
+A diferença é que o primeiro não precisa do `cat`, ou seja, um processo a menos.
 
-3. Limpar saida do terminal: Há certos comandos como `wc` que no output, não mostram o dado puro como:
+2. **Entrada automática:** alguns programas pedem dados ao usuário (`stdin`). Em vez de digitar tudo manualmente, entregue um arquivo com as informações:
 
 ```sh
-wc -l arquivo.txt #stdout: 10 arquivo.txt
+comando < file.txt
+```
+
+3. **Saída limpa:** quando o `wc` recebe o nome do arquivo, ele imprime o nome junto com o número. Com `<`, ele não sabe o nome do arquivo e imprime só o número:
+
+```sh
+wc -l arquivo.txt    # stdout: 10 arquivo.txt
 ```
 
 ```sh
-wc -l < arquivo.txt #stdout: 10
+wc -l < arquivo.txt  # stdout: 10
 ```
 
-Isso é interessante se precisar fazer calculos. Uma forma comum de limpar a saida.
+Isso é útil para guardar o valor em variável e fazer cálculos:
+
+```sh
+linhas=$(wc -l < arquivo.txt)
+```
+
+> [!NOTE]
+> O `<` só aceita um **arquivo** depois dele. Para ligar a saída de um comando à entrada de outro comando, use o pipe `|`.
 
 ## Criando arquivos  (redirecinamento de saída)
 
@@ -560,6 +575,62 @@ Resumo de tudo:
 2> --> É saída dos logs de erro, stderr.
 &> --> É o stdout e stderr no mesmo local de saída.
 ```
+
+> [!NOTE]
+> Depois de `>`, `2>` ou `&>` o shell espera sempre um **arquivo**, nunca um comando.
+> Para enviar a saída de um comando para outro comando, use o pipe `|`.
+>
+> ```sh
+> ls > wc                              # cria um arquivo chamado "wc" com a lista de arquivos
+> ls | wc -l                           # executa o comando wc, que conta as linhas da saída do ls
+> ```
+>
+> O pipe leva apenas o **stdout**. O `/dev/null` é um arquivo especial que descarta tudo o que receber:
+>
+> ```sh
+> ./imparOuPar 2> /dev/null | wc -l    # descarta o stderr e conta as linhas do stdout
+> ./imparOuPar > /dev/null | wc -l # descarta o stdout e o stderr vai para o terminal, pois o padrão do stderr é o terminal. O pipe apenas muda o fluxo do stdout
+> ./imparOuPar 2>&1 >/dev/null | wc -l #descarta o fluxo de stdout e mandar o fluxo de stderr para o pipe
+> ```
+
+Aqui vai um desenho do comando ./imparOuPar 2>&1 >/dev/null | wc -l:
+
+````text
+./imparOuPar 2>&1 >/dev/null | wc -l   (cano 2 entra no pipe, cano 1 vai pro lixo)
+
+ stdout (1) ═══[cab][0][2][4][6][8]═══▶ /dev/null (some)
+                                        ╔══ pipe | ══╗
+ stderr (2) ═══[1][3][5][7][9]═════════▶║           ╠══▶ wc -l ──▶ 5
+                                        ╚═══════════╝
+```
+
+Aqui vai um desenho do ./imparOuPar | wc -l
+
+```text
+ ./imparOuPar | wc -l
+
+ stdout (1) ═══[cabeçalho][0][2][4][6][8]═══▶ ╔════════ pipe | ════════╗
+                                              ║                        ╠══▶ wc -l ──▶ 7
+                                              ╚════════════════════════╝
+
+ stderr (2) ═══[1][3][5][7][9]══════════════▶ TERMINAL (sem cano, aparece na tela)
+```
+
+Aqui vai um desenho do ./imparOuPar > /dev/null | wc -l:
+
+```text
+ ./imparOuPar > /dev/null | wc -l
+
+ stdout (1) ═══[cabeçalho][0][2][4][6][8]═══▶ /dev/null (some)
+
+                                              ╔════════ pipe | ════════╗
+                                              ║  (vazio, nada entra)   ╠══▶ wc -l ──▶ 0
+                                              ╚════════════════════════╝
+
+ stderr (2) ═══[1][3][5][7][9]══════════════▶ TERMINAL (ninguém redirecionou, aparece na tela)
+```
+
+Como pode ver, `stderr` e `stdout` são canos diferentes. `2>&1` canos diferentes que apontam para outro cano, o `stderr` aponta para o cano `stdout` para arquivos ou pipes. `&>` dois canos independetes vão para o arquivo, e somente arquivos.
 
 ## Sequência de comandos
 
@@ -688,25 +759,25 @@ Compile usando o `gcc`:
 gcc program.c -o imparOuPar
 ```
 
-É preciso compilar o programa, pois o computador apeanas entende formatos binários
+É preciso compilar o programa, pois o computador apenas entende formatos binários
 
 ```sh
-imparOuPar &> logs.txt
+./imparOuPar &> logs.txt
 ```
 
-Se executar esse comando, ele vai rodar em primeiro plano. Para em segundo plano use coloque um & no final.
+Se executar o comando acima, ele vai rodar em primeiro plano. Para em segundo plano use coloque um & no final
 
 ```sh
-imparOuPar &> logs.txt &
+./imparOuPar &> logs.txt &
 ```
 
 Por curiosidade, existem scripts que precisam de um stdin. Quando o comando exige stdin, é perguntado ao termial. Vamos supor que vc tem dados de vários clientes:
 
 ```sh
-meuProgramaQueExigeEntrada < dadosDoUsuário.txt &> logs.txt &
+./meuProgramaQueExigeEntrada < dadosDoUsuário.txt &> logs.txt &
 ```
 
-Ou seja, programada já alimentado com os dados principais
+Ou seja, o `dadosDoUsuário.txt` passa os dados para o script, sem precisar alimenta-lo manualmente
 
 Para ver o que está rodando em segundo plano no nosso shell, use:
 
@@ -716,9 +787,9 @@ jobs
 
 `jobs` é um comando para verificar quais processos estão em segundo plano no momento. Ao usar Jobs, verá que existem etapas que estão rodando o processo em segundo plano.
 
-Vamos supor que faz um script para baixar catalos de peças automotivas na internet. Se não rodar o processo em segundo plano, não é possível usar o terminal atual.
+Vamos supor que faz um script para baixar catalos de peças automotivas na internet. Se não rodar o processo em segundo plano, não é possível usar o terminal atual
 
-Como dito anteriormente, o redirecinamento é para onde irá os dados, mesmo rodando o processo em segundo plano, o padrão de saída é o terminal. Você vai conseguir usar o cursor, porém irá ficar baguçando pq enquanto digita o comando o script está tacando logs na tela.
+Como dito anteriormente, o redirecinamento é para onde irá os dados de logs quando o script está rodando o processo em segundo plano sendo que saída dos dados é o seu terminal. Com o redirecionamento, ao invés da saída ser seu terminal, ele vai para os arquivos. Se rodar o processo em segundo plano, e não colocar o redirecionamento, seu curso vai funcionar, porém, os dados de logs vão ser escritos no seu terminal, o que pode ficar confuso.
 
 Veja o exemplo abaixo:
 
@@ -732,9 +803,9 @@ Se quiser ver em tempo real os logs, use
 tail -f stdout.txt #stdout.txt é apenas o nome do meu arquivo. Use o nome do seu arquivo
 ```
 
-Nesse caso, ele irá abrir em tempo real, o que está acontecendo no arquivo `stdout.txt`
+Nesse caso, ele irá abrir em tempo real, o que está acontecendo no arquivo `stdout.txt`. Para sair do tail, use `Ctrl +  C`
 
-Existem maneiras de encerrar o programa com `kill` ou suspender. Quando você usa `jobs`, é possível ver o número do processo. 
+Existem maneiras de encerrar o programa com `kill` ou suspender. Quando você usa `jobs`, é possível ver o número do processo
 
 Para encerrar um programa use:
 
@@ -758,7 +829,7 @@ bg %1
 
 O `bg` é um comando para deixar o processo rodando em background, ou seja, é programa retorna em background como estava. `bg` é a abreviação de *background*
 
-Há também é o `fg` que no caso é significa *foreground*. Quando um processo está rodando em segundo plano, é possível voltar ele para para o seu terminal, onde você está. Porém, ao retornar o seu terminal fica travado, esperando o processo acabar para que faça outras coisas. Veja o exemplo:
+Há também é o `fg` que no caso é significa *foreground*. Quando um processo está rodando em segundo plano, é possível voltar ele para para o seu terminal, onde você está. Porém, ao retornar o seu terminal, ele fica travado, esperando o processo acabar para que faça outras coisas. Veja o exemplo:
 
 ```sh
 fg %1
@@ -766,16 +837,16 @@ fg %1
 
 Se quiser sair do terminal travado enquanto o processo espera, use `Crtl + Z`, isso irá fazer a sua tarefa pausar, igual o `kill -STOP %1` e liberar seu terminal`
 
-Pausado e o terminal, use o `bg %1` para continuar rodando em segundo plano.
+Com o processo pausado, use o `bg %1` para continuar rodando em segundo plano.
 
 Mas deve estar se perguntando o porquê de rodar um processo em primeiro plano, sendo que o termianal fica travado?
 
 1. Existem programas que precisam de uma estrada de usuário como `Digite sua senha`, então o que estava rodando em segundo plano, fica em primeiro plano para esperar o usário digitar
 
-2. As vezes, você quer a saída viva no terminal e ver como o programa está se comportando, então apenas execute o comando normalmente.
+2. As vezes, você quer a saída viva no terminal e ver como o programa está se comportando, então apenas execute o comando sem `&`.
 
 Existem momentos que começou a rodar em primeiro plano e viu que iria demorar muito. Se você direcionou a saída para arquivos, use `Crtl + Z` para pausar e use `bg 1%`.
 
-Se rodou em primeiro plano e a saida está no terminal use, `Ctrl + C` para encerrar. Em segundo plano use o `kill -STOP %1`
+Se rodou em primeiro plano e a saida está no terminal use, `Ctrl + C` para encerrar. Em segundo plano mas não redirecionou use o `kill -STOP %1` ou `kill %1`
 
 Lebrando que `%1` é o numero dos processos, as vezes podem ter vários processos em segundo plano. Você escolhe o número desejado.
