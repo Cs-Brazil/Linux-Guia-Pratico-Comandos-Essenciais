@@ -93,6 +93,8 @@ wc -w < arquivo.txt           # recebe os dados do arquivo pela stdin
 
 * **~/.config** é uma pasta de configuração pessoal do próprio usuário e não afeta o sistema de maneira global como o `/etc`.
 
+* **/dev** é uma pasta onde fica as arquivos de dispositivos. São arquivos que se comunicam no nivel hardware para a execução do sistema. Quando o programa lê ou escreve nesses arquivos ele faz system calls e encaminha o pedido ao driver.
+
 ## Caminho absoluto vs relativo
 
 Os caminhos absolutos começam na pasta raiz e, por isso, começam com `/`.
