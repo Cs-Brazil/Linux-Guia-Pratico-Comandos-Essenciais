@@ -181,9 +181,12 @@ Imagine que você está no diretório `~/` e executou o comando `ls -ld` no dire
 
 Após o caractere inicial, cada letra tem um significado:
 
-`r` -> *read*, significa ler <br>
-`w` -> *write*, significa escrever/modificar <br>
-`x` -> *execute*, significa executar (ou "entrar", no caso de diretório) <br>
+`r` -> *read*, significa ler 
+
+`w` -> *write*, significa escrever/modificar 
+
+`x` -> *execute*, significa executar (ou "entrar", no caso de diretório) 
+
 `-` -> permissão nula
 
 #### Entendendo as divisões
