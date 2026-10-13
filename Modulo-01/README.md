@@ -181,11 +181,11 @@ Imagine que você está no diretório `~/` e executou o comando `ls -ld` no dire
 
 Após o caractere inicial, cada letra tem um significado:
 
-`r` -> *read*, significa ler 
+`r` -> *read*, significa ler
 
-`w` -> *write*, significa escrever/modificar 
+`w` -> *write*, significa escrever/modificar
 
-`x` -> *execute*, significa executar (ou "entrar", no caso de diretório) 
+`x` -> *execute*, significa executar (ou "entrar", no caso de diretório)
 
 `-` -> permissão nula
 
@@ -914,3 +914,53 @@ Lembrando que `%1` é o número da tarefa: às vezes podem existir vários proce
 
 ## Abrindo um Novo Terminal
 
+
+O `tmux` é uma maneira de abrir diferentes telas dentro do mesmo terminal. É como se você precisasse abrir outras telas enquanto uma delas já está em uso.
+
+Uma das poucas limitações do tmux é que ele abre cada tela como um *login shell*, e o login shell lê o `.profile`, não o `.bashrc`. Isso significa que você pode ficar sem acesso aos alias que tem no seu terminal.
+
+O `.bashrc` é onde ficam as configurações de cores do terminal, o visual das linhas e os alias.
+
+Para que o `tmux` acesse esse arquivo, é necessário injetar um script no `.profile`:
+
+```sh
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+```
+
+ou de maneira mais facilitada:
+
+```sh
+echo -e "\nif [ -f ~/.bashrc ]; then\n    . ~/.bashrc\nfi" >> ~/.profile
+```
+
+Como curiosidade sobre o comando: a opção `-e` faz o `echo` interpretar as barras invertidas, então `\n` vira uma quebra de linha.
+
+Com esse script no `.profile`, o tmux ou outros shells vão ter acesso aos alias e às variáveis de ambiente criadas, pois ele vai ler o `~/.bashrc`.
+
+> No Debian o `.profile` já vem com um bloco parecido. Se ele já estiver lá, não precisa adicionar de novo.
+
+### Criando um alias permanente
+
+Um alias digitado direto no terminal vale só para aquela sessão. Para ele ficar salvo, precisa estar escrito no `~/.bashrc`:
+
+```sh
+echo "alias tt=\"echo 'oi'\"" >> ~/.bashrc
+```
+
+O `>>` acrescenta a linha no final do arquivo. Depois é só recarregar:
+
+```sh
+source ~/.bashrc
+```
+
+O `source` manda o shell ler o arquivo do disco de novo e atualizar a memória dele.
+
+> Cuidado: use `>>` e não `>`. O `>` apaga o arquivo inteiro e escreve do zero.
+
+Agora com o `tmux`, você pode ter suas configurações, e mais importante suas alias e suas variáveis de ambiente criadas.
+
+> ![NOTE]
+>
+> A lembrar que, esse script apena fica salvo no seu usuário para suas configurações e não afeta outros usuários que já estão no seu Linux ou que ainda vão ser criados.
