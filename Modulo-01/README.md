@@ -961,6 +961,6 @@ O `source` manda o shell ler o arquivo do disco de novo e atualizar a memória d
 
 Agora com o `tmux`, você pode ter suas configurações, e mais importante suas alias e suas variáveis de ambiente criadas.
 
-> ![NOTE]
+> [!NOTE]
 >
 > A lembrar que, esse script apena fica salvo no seu usuário para suas configurações e não afeta outros usuários que já estão no seu Linux ou que ainda vão ser criados.
