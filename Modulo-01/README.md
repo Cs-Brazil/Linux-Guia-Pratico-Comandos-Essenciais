@@ -38,6 +38,9 @@ Porque o `wc` pode ler dados de duas formas:
 * Recebendo um ou mais arquivos como argumento.
 * Recebendo dados pela entrada padrão (stdin), como acontece em um pipeline.
 
+> [!TIP]
+> Quando se usa o termo entrada padrão e saída padrão, se refere, onde entrada é o teclado e a saida é o terminal. Com pipes, ela é redirecionada.
+
 Como o `echo` envia sua saída para a stdin do `wc`, este consegue processar o texto sem precisar de um arquivo.
 
 Essa é a grande vantagem dos pipes: eles permitem conectar a saída de um comando à entrada de outro, criando um fluxo contínuo de processamento de dados.
